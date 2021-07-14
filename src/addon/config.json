@@ -1,0 +1,42 @@
+{
+  "colors": {
+    "sass": {
+      "day": {
+        "--text-fg": ["Text Foreground", "black"],
+        "--window-bg": ["Window Background", "#ececec"],
+        "--frame-bg": ["Frame Background", "white"],
+        "--border": ["Border", "#aaa"],
+        "--medium-border": ["Medium Border", "#b6b6b6"],
+        "--faint-border": ["Faint Border", "#e7e7e7"],
+        "--link": ["Hyperlink", "#00a"],
+        "--slightly-grey-text": ["Slightly Grey Text", "#333"],
+        "--highlight-bg": ["Highlighted Background", "#77ccff"],
+        "--highlight-fg": ["Highlighted Foreground", "black"],
+        "--disabled": ["Disabled", "#777"],
+        "--tooltip-bg": ["Tooltip Background", "#fcfcfc"],
+        "--review-count": ["Review Count", "#0a0"],
+        "--new-count": ["New Count", "#00a"],
+        "--learn-count": ["Learn Count", "#c35617"],
+        "--zero-count": ["Zero Count", "#ddd"],
+        "--buried-fg": ["Buried Foreground", "#aaaa33"],
+        "--suspended-fg": ["Suspended Foreground", "#dd0"],
+        "--suspended-bg": ["Suspended Background", "#ffffb2"],
+        "--marked-bg": ["Marked Background", "#cce"],
+        "--flag1-fg": ["Flag1 Foreground", "#e25252"],
+        "--flag1-bg": ["Flag1 Background", "#ff9b9b"],
+        "--flag2-fg": ["Flag2 Foreground", "#ffb347"],
+        "--flag2-bg": ["Flag2 Background", "#ffb347"],
+        "--flag3-fg": ["Flag3 Foreground", "#54c414"],
+        "--flag3-bg": ["Flag3 Background", "#93e066"],
+        "--flag4-fg": ["Flag4 Foreground", "#578cff"],
+        "--flag4-bg": ["Flag4 Background", "#9dbcff"],
+        "--flag5-fg": ["Flag5 Foreground", "#ff82ee"],
+        "--flag5-bg": ["Flag5 Background", "#f5a8eb"],
+        "--flag6-fg": ["Flag6 Foreground", "#00d1b5"],
+        "--flag6-bg": ["Flag6 Background", "#7edbd7"],
+        "--flag7-fg": ["Flag7 Foreground", "#9649dd"],
+        "--flag7-bg": ["Flag7 Background", "#cca3f1"]
+      }
+    }
+  }
+}

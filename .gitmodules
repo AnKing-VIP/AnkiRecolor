@@ -1,0 +1,3 @@
+[submodule "src/addon/ankiaddonconfig"]
+	path = src/addon/ankiaddonconfig
+	url = git@github.com:BlueGreenMagick/ankiaddonconfig.git
