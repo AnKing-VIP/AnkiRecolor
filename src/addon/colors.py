@@ -23,6 +23,7 @@ def recolor_python() -> None:
     theme_manager.default_palette = mw.app.palette()
     theme_manager._apply_style(mw.app)
     apply_palette()
+    print("recoloring")
 
 
 def qcolor(conf_key: str) -> QColor:
