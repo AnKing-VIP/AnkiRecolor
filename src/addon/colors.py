@@ -2,7 +2,7 @@ from typing import Any, Optional
 
 import aqt
 from aqt.theme import theme_manager, colors
-from aqt import gui_hooks, mw
+from aqt import gui_hooks, mw, dialogs
 from aqt.qt import QColor, QPalette, Qt
 
 from .ankiaddonconfig import ConfigManager
@@ -11,6 +11,22 @@ conf = ConfigManager()
 
 
 # Recolor Python Colors
+
+def refresh_all_windows() -> None:
+    # Redraw top toolbar
+    mw.toolbar.draw()
+    # Redraw main body
+    if mw.state == "review":
+        mw.reviewer.refresh()
+    elif mw.state == "overview":
+        mw.overview.refresh()
+    elif mw.state == "deckBrowser":
+        mw.deckBrowser.refresh()
+    # Close Browser if open
+    browser = dialogs._dialogs["Browser"][1]
+    if browser:
+        browser.closeWithCallback(lambda: None)
+
 
 def recolor_python() -> None:
     conf.load()
@@ -23,7 +39,7 @@ def recolor_python() -> None:
     theme_manager.default_palette = mw.app.palette()
     theme_manager._apply_style(mw.app)
     apply_palette()
-    print("recoloring")
+    refresh_all_windows()
 
 
 def qcolor(conf_key: str) -> QColor:
