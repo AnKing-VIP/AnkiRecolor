@@ -36,11 +36,11 @@ def general_tab(conf_window: ConfigWindow) -> None:
     for conf_key in conf_keys:
         description = conf.get(f"colors.{conf_key}.0")
         tab.color_input(f"colors.{conf_key}.1", description)
-        tab.stretch()
+    tab.stretch()
 
 
 def browse_sidebar_tab(conf_window: ConfigWindow) -> None:
-    colors = [
+    conf_keys = [
         "BURIED_FG",
         "SUSPENDED_FG",
         "FLAG1_FG",
@@ -51,10 +51,15 @@ def browse_sidebar_tab(conf_window: ConfigWindow) -> None:
         "FLAG6_FG",
         "FLAG7_FG",
     ]
+    tab = conf_window.add_tab("Browse Sidebar")
+    for conf_key in conf_keys:
+        description = conf.get(f"colors.{conf_key}.0")
+        tab.color_input(f"colors.{conf_key}.1", description)
+    tab.stretch()
 
 
 def browse_cards_list_tab(conf_window: ConfigWindow) -> None:
-    colors = [
+    conf_keys = [
         "FLAG1_BG",
         "FLAG2_BG",
         "FLAG3_BG",
@@ -65,8 +70,15 @@ def browse_cards_list_tab(conf_window: ConfigWindow) -> None:
         "SUSPENDED_BG",
         "MARKED_BG",
     ]
+    tab = conf_window.add_tab("Browse Cards List")
+    for conf_key in conf_keys:
+        description = conf.get(f"colors.{conf_key}.0")
+        tab.color_input(f"colors.{conf_key}.1", description)
+    tab.stretch()
 
 
 conf.use_custom_window()
 conf.on_window_open(with_window)
 conf.add_config_tab(general_tab)
+conf.add_config_tab(browse_sidebar_tab)
+conf.add_config_tab(browse_cards_list_tab)
