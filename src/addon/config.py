@@ -32,6 +32,8 @@ def header_layout(conf_window: ConfigWindow) -> QHBoxLayout:
         button.setMinimumSize(QSize(*image[1]))
         button.clicked.connect(lambda _: open_web(image[2]))
         button.setCursor(QCursor(Qt.PointingHandCursor))
+        button.setStyleSheet(
+            "QToolButton { border: none; }")
         icons_layout.addWidget(button)
     icons_layout.addStretch()
     return icons_layout
