@@ -36,8 +36,6 @@ def recolor_python() -> None:
         color_entry = color_entries[color_name]
         new_color_value = (color_entry[1], color_entry[2])
         setattr(colors, color_name, new_color_value)
-    # webview palette uses default one
-    theme_manager.default_palette = mw.app.palette()
     theme_manager._apply_style(mw.app)
     apply_palette()
     refresh_all_windows()
@@ -85,6 +83,7 @@ def apply_palette() -> None:
         palette.setColor(QPalette.BrightText, Qt.red)
 
     mw.app.setPalette(palette)
+    # webview palette uses default one
     theme_manager.default_palette = palette
 
 
