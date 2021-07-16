@@ -12,7 +12,7 @@ conf = ConfigManager()
 
 
 def header_layout(conf_window: ConfigWindow) -> QHBoxLayout:
-    icons_layout = QHBoxLayout(conf_window)
+    icons_layout = QHBoxLayout()
     icons_layout.addStretch()
     images = [
         ("AnKingSmall.png", (31, 31), "www.ankingmed.com"),
