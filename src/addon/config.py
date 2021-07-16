@@ -1,4 +1,5 @@
 import webbrowser
+from typing import Optional
 
 from aqt import mw
 from aqt.theme import theme_manager
@@ -119,7 +120,7 @@ def browse_cards_list_tab(conf_window: ConfigWindow) -> None:
     tab.stretch()
 
 
-def getMenu(parent, menuName):
+def getMenu(parent: QWidget, menuName: str) -> QMenu:
     menubar = parent.form.menubar
     for a in menubar.actions():
         if menuName == a.text():
@@ -128,17 +129,17 @@ def getMenu(parent, menuName):
         return menubar.addMenu(menuName)
 
 
-def getSubMenu(menu, subMenuName):
+def create_sub_menu_if_not_exist(menu, subMenuName) -> Optional[QMenu]:
     for a in menu.actions():
         if subMenuName == a.text():
-            return a.menu()
+            return None
     else:
         subMenu = QMenu(subMenuName, menu)
         menu.addMenu(subMenu)
         return subMenu
 
 
-def setupMenu():
+def setupMenu() -> None:
     MENU_OPTIONS = [
         ("Online Mastery Course",
          "courses.ankipalace.com/?utm_source=anking_bg_add-on&utm_medium=anki_add-on&utm_campaign=mastery_course"),
@@ -147,12 +148,12 @@ def setupMenu():
     ]
     menu_name = "&AnKing"
     menu = getMenu(mw, menu_name)
-    submenu = getSubMenu(menu, "Get Anki Help")
-    for t, url in MENU_OPTIONS:
-        act = QAction(t, mw)
-        act.triggered.connect(lambda _: open_web(url))
-        submenu.addAction(act)
-        # menuItem[k]=act
+    submenu = create_sub_menu_if_not_exist(menu, "Get Anki Help")
+    if submenu:
+        for t, url in MENU_OPTIONS:
+            act = QAction(t, mw)
+            act.triggered.connect(lambda _: open_web(url))
+            submenu.addAction(act)
     a = QAction("Recolor", mw)
     a.triggered.connect(conf.open_config)
     menu.addAction(a)
@@ -163,7 +164,6 @@ def open_web(url: str) -> None:
 
 
 setupMenu()
-
 
 conf.use_custom_window()
 conf.on_window_open(with_window)
