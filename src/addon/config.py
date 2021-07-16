@@ -135,19 +135,17 @@ def getSubMenu(menu, subMenuName):
 
 
 def setupMenu():
-    MENU_OPTIONS = (  # CONF_KEY, TITLE, CALLBACK
-        ("", "Online Mastery Course",
+    MENU_OPTIONS = [
+        ("Online Mastery Course",
          "courses.ankipalace.com/?utm_source=anking_bg_add-on&utm_medium=anki_add-on&utm_campaign=mastery_course"),
-        ("", "Daily Q and A Support", "www.ankipalace.com/memberships"),
-        ("", "1-on-1 Tutoring", "www.ankipalace.com/tutoring")
-    )
+        ("Daily Q and A Support", "www.ankipalace.com/memberships"),
+        ("1-on-1 Tutoring", "www.ankipalace.com/tutoring")
+    ]
     menu_name = "&AnKing"
     menu = getMenu(mw, menu_name)
     submenu = getSubMenu(menu, "Get Anki Help")
     for k, t, url in MENU_OPTIONS:
-        hk = QKeySequence()
         act = QAction(t, mw)
-        act.setShortcut(QKeySequence(hk))
         act.triggered.connect(lambda _: open_web(url))
         submenu.addAction(act)
         # menuItem[k]=act
