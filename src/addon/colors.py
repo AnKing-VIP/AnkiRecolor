@@ -94,15 +94,31 @@ def file_url(file_name: str) -> str:
     return f"/_addons/{addon_package}/{file_name}"
 
 
-def inject_js(web_content: aqt.webview.WebContent, context: Optional[Any]) -> None:
+def inject_web(web_content: aqt.webview.WebContent, context: Optional[Any]) -> None:
     conf.load()
-    color_idx = 2 if theme_manager.night_mode else 1
+    night_mode = theme_manager.night_mode
+    color_idx = 2 if night_mode else 1
     web_content.body += "<script>Recolor.withConfig('{}', {})</script>".format(
         conf.to_json(), color_idx
     )
     web_content.js.append(file_url("recolor.js"))
 
+    # Override night mode button color
+    btn_bg_night = conf.get("colors.BUTTON_BG.2")
+    if night_mode and conf.get_default("colors.BUTTON_BG.2") != btn_bg_night:
+        web_content.body += """
+        <style>
+            .night_mode button {
+                background: %s;
+                border: none; 
+            }
+            .night_mode button:hover {
+                background: %s;
+                filter: brightness(1.25);
+            }
+        </style>""" % (btn_bg_night, btn_bg_night)
+
 
 mw.addonManager.setWebExports(__name__, "recolor.js")
-gui_hooks.webview_will_set_content.append(inject_js)
+gui_hooks.webview_will_set_content.append(inject_web)
 recolor_python()
