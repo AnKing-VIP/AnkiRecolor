@@ -1,6 +1,7 @@
 from typing import Any, Optional
 
 import aqt
+from aqt import theme
 from aqt.theme import theme_manager, colors
 from aqt import gui_hooks, mw, dialogs
 from aqt.qt import QColor, QPalette, Qt
@@ -96,8 +97,10 @@ def file_url(file_name: str) -> str:
 
 def inject_js(web_content: aqt.webview.WebContent, context: Optional[Any]) -> None:
     conf.load()
-    web_content.body += "<script>Recolor.withConfig('{}')</script>".format(
-        conf.to_json())
+    color_idx = 2 if theme_manager.night_mode else 1
+    web_content.body += "<script>Recolor.withConfig('{}', {})</script>".format(
+        conf.to_json(), color_idx
+    )
     web_content.js.append(file_url("recolor.js"))
 
 

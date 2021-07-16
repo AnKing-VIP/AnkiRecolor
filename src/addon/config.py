@@ -1,6 +1,8 @@
 from .ankiaddonconfig import ConfigManager, ConfigWindow
 from .colors import recolor_python
 
+from aqt.theme import theme_manager
+
 conf = ConfigManager()
 
 
@@ -11,6 +13,10 @@ def on_save() -> None:
 
 def with_window(conf_window: ConfigWindow) -> None:
     conf_window.execute_on_save(on_save)
+
+
+def color_idx() -> int:
+    return 2 if theme_manager.night_mode else 1
 
 
 def general_tab(conf_window: ConfigWindow) -> None:
@@ -35,7 +41,7 @@ def general_tab(conf_window: ConfigWindow) -> None:
     tab = conf_window.add_tab("General")
     for conf_key in conf_keys:
         description = conf.get(f"colors.{conf_key}.0")
-        tab.color_input(f"colors.{conf_key}.1", description)
+        tab.color_input(f"colors.{conf_key}.{color_idx()}", description)
     tab.stretch()
 
 
@@ -54,7 +60,7 @@ def browse_sidebar_tab(conf_window: ConfigWindow) -> None:
     tab = conf_window.add_tab("Browse Sidebar")
     for conf_key in conf_keys:
         description = conf.get(f"colors.{conf_key}.0")
-        tab.color_input(f"colors.{conf_key}.1", description)
+        tab.color_input(f"colors.{conf_key}.{color_idx()}", description)
     tab.stretch()
 
 
@@ -73,7 +79,7 @@ def browse_cards_list_tab(conf_window: ConfigWindow) -> None:
     tab = conf_window.add_tab("Browse Cards List")
     for conf_key in conf_keys:
         description = conf.get(f"colors.{conf_key}.0")
-        tab.color_input(f"colors.{conf_key}.1", description)
+        tab.color_input(f"colors.{conf_key}.{color_idx()}", description)
     tab.stretch()
 
 
