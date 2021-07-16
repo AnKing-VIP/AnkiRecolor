@@ -2,13 +2,38 @@ import webbrowser
 
 from aqt import mw
 from aqt.theme import theme_manager
-from aqt.qt import QAction, QKeySequence, QMenu
+from aqt.qt import *
 
 
 from .ankiaddonconfig import ConfigManager, ConfigWindow
 from .colors import recolor_python
 
 conf = ConfigManager()
+
+
+def header_layout(conf_window: ConfigWindow) -> QHBoxLayout:
+    icons_layout = QHBoxLayout(conf_window)
+    icons_layout.addStretch()
+    images = [
+        ("AnKingSmall.png", (31, 31), "www.ankingmed.com"),
+        ("YouTube.png", (31, 31), "www.youtube.com/theanking"),
+        ("Patreon.png", (200, 31), "www.patreon.com/ankingmed"),
+        ("Instagram.png", (31, 31), "instagram.com/ankingmed"),
+        ("Facebook.png", (31, 31), "facebook.com/ankingmed")
+    ]
+    for image in images:
+        icon = QIcon()
+        icon.addPixmap(
+            QPixmap(f":/Recolor/{image[0]}"), QIcon.Normal, QIcon.Off)
+        button = QToolButton(conf_window)
+        button.setIcon(icon)
+        button.setIconSize(QSize(*image[1]))
+        button.setMaximumSize(QSize(*image[1]))
+        button.setMinimumSize(QSize(*image[1]))
+        button.clicked.connect(lambda _: open_web(image[2]))
+        icons_layout.addWidget(button)
+    icons_layout.addStretch()
+    return icons_layout
 
 
 def on_save() -> None:
@@ -18,6 +43,8 @@ def on_save() -> None:
 
 def with_window(conf_window: ConfigWindow) -> None:
     conf_window.execute_on_save(on_save)
+    conf_window.main_layout.insertLayout(0, header_layout(conf_window))
+    conf_window.main_layout.insertSpacing(1, 10)
 
 
 def color_idx() -> int:
@@ -109,18 +136,19 @@ def getSubMenu(menu, subMenuName):
 
 def setupMenu():
     MENU_OPTIONS = (  # CONF_KEY, TITLE, CALLBACK
-        ("", "Online Mastery Course", openWeb1),
-        ("", "Daily Q and A Support", openWeb2),
-        ("", "1-on-1 Tutoring", openWeb3)
+        ("", "Online Mastery Course",
+         "courses.ankipalace.com/?utm_source=anking_bg_add-on&utm_medium=anki_add-on&utm_campaign=mastery_course"),
+        ("", "Daily Q and A Support", "www.ankipalace.com/memberships"),
+        ("", "1-on-1 Tutoring", "www.ankipalace.com/tutoring")
     )
     menu_name = "&AnKing"
     menu = getMenu(mw, menu_name)
     submenu = getSubMenu(menu, "Get Anki Help")
-    for k, t, cb in MENU_OPTIONS:
+    for k, t, url in MENU_OPTIONS:
         hk = QKeySequence()
         act = QAction(t, mw)
         act.setShortcut(QKeySequence(hk))
-        act.triggered.connect(cb)
+        act.triggered.connect(lambda _: open_web(url))
         submenu.addAction(act)
         # menuItem[k]=act
     a = QAction("Recolor", mw)
@@ -128,17 +156,8 @@ def setupMenu():
     menu.addAction(a)
 
 
-def openWeb1():
-    webbrowser.open(
-        'https://courses.ankipalace.com/?utm_source=anking_bg_add-on&utm_medium=anki_add-on&utm_campaign=mastery_course')
-
-
-def openWeb2():
-    webbrowser.open('https://www.ankipalace.com/memberships')
-
-
-def openWeb3():
-    webbrowser.open('https://www.ankipalace.com/tutoring')
+def open_web(url: str) -> None:
+    webbrowser.open(f"https://{url}")
 
 
 setupMenu()

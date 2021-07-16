@@ -1,10 +1,15 @@
 # Development
 ## Setup
 After cloning the project, run the following command
-```
+```bash
 git submodule update --init --recursive
 ```
 The command installs [ankiaddonconfig](https://github.com/BlueGreenMagick/ankiaddonconfig/) as a git submodule.
+
+To update icons_rc.py file after changes to [icons.qrc](src/addon/AnKing/icons.qrc), run the following command.
+```bash
+pyrcc5 ./src/addon/AnKing/icons.qrc -o ./src/addon/icons_rc.py
+```
 
 ## Tests & Formatting
 This project uses [mypy](https://github.com/python/mypy) type checking for Python, and [standardjs](https://github.com/standard/standard) for formatting Javascript.
