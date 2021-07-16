@@ -45,6 +45,7 @@ def on_save() -> None:
 
 
 def with_window(conf_window: ConfigWindow) -> None:
+    conf_window.setWindowTitle("Recolor Settings")
     conf_window.execute_on_save(on_save)
     conf_window.main_layout.insertLayout(0, header_layout(conf_window))
     conf_window.main_layout.insertSpacing(1, 10)
