@@ -66,15 +66,15 @@ def browse_sidebar_tab(conf_window: ConfigWindow) -> None:
 
 def browse_cards_list_tab(conf_window: ConfigWindow) -> None:
     conf_keys = [
+        "SUSPENDED_BG",
+        "MARKED_BG",
         "FLAG1_BG",
         "FLAG2_BG",
         "FLAG3_BG",
         "FLAG4_BG",
         "FLAG5_BG",
         "FLAG6_BG",
-        "FLAG7_BG",
-        "SUSPENDED_BG",
-        "MARKED_BG",
+        "FLAG7_BG"
     ]
     tab = conf_window.add_tab("Browse Cards List")
     for conf_key in conf_keys:
