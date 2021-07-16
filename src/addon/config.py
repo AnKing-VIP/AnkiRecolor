@@ -18,7 +18,7 @@ def header_layout(conf_window: ConfigWindow) -> QHBoxLayout:
     images = [
         ("AnKingSmall.png", (31, 31), "www.ankingmed.com"),
         ("YouTube.png", (31, 31), "www.youtube.com/theanking"),
-        ("Patreon.png", (200, 31), "www.patreon.com/ankingmed"),
+        ("Patreon.png", (221, 31), "www.patreon.com/ankingmed"),
         ("Instagram.png", (31, 31), "instagram.com/ankingmed"),
         ("Facebook.png", (31, 31), "facebook.com/ankingmed")
     ]
