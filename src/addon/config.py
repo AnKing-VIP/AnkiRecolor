@@ -144,7 +144,7 @@ def setupMenu():
     menu_name = "&AnKing"
     menu = getMenu(mw, menu_name)
     submenu = getSubMenu(menu, "Get Anki Help")
-    for k, t, url in MENU_OPTIONS:
+    for t, url in MENU_OPTIONS:
         act = QAction(t, mw)
         act.triggered.connect(lambda _: open_web(url))
         submenu.addAction(act)
