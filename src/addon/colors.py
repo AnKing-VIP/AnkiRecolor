@@ -1,6 +1,7 @@
 from typing import Any, Optional
 
 from anki import version as ankiversion
+from anki.utils import isWin, isMac
 
 import aqt
 from aqt.webview import AnkiWebView
@@ -112,6 +113,10 @@ def file_url(file_name: str) -> str:
     return f"/_addons/{addon_package}/{file_name}"
 
 
+def wrap_style(code: str) -> str:
+    return f"<style>{code}</style>"
+
+
 def inject_web(web_content: aqt.webview.WebContent, context: Optional[Any]) -> None:
     conf.load()
     night_mode = theme_manager.night_mode
@@ -124,18 +129,55 @@ def inject_web(web_content: aqt.webview.WebContent, context: Optional[Any]) -> N
 
     # Override night mode button color
     btn_bg_night = conf.get("colors.BUTTON_BG.2")
-    if night_mode and conf.get_default("colors.BUTTON_BG.2") != btn_bg_night:
-        web_content.body += """
-        <style>
-            .night_mode button {
-                background: %s;
-                border: none; 
+    extra_style = ""
+    if night_mode:  # Created to look good enough
+        if conf.get_default("colors.BUTTON_BG.2") != btn_bg_night:
+            extra_style += """
+                .night_mode button {
+                    background: %(btn_bg)s;
+                    border: none; 
+                }
+                .night_mode button:hover {
+                    background: %(btn_bg)s;
+                    filter: brightness(1.25);
+                }
+            """ % {
+                "btn_bg": btn_bg_night
             }
-            .night_mode button:hover {
-                background: %s;
-                filter: brightness(1.25);
+    else:  # Because v2.1.44- uses QPalette default color
+        if isWin:
+            extra_style += """
+                button:focus {
+                    outline: 1px solid %s
+                }
+            """ % conf.get("colors.HIGHLIGHT_BG.1")
+        elif isMac:
+            extra_style += """
+                button {
+                    background: %(btn_bg)s;
+                }
+            """ % {"btn_bg": conf.get("colors.BUTTON_BG.1")}
+        else:
+            extra_style += """
+                    button {
+                        background-color: %(btn_bg)s;
+                    }
+                    button:active, button:active:hover { 
+                        background-color: %(color_hl)s; 
+                        color: %(color_hl_txt)s;
+                    }
+                    btn:focus { border-color: %(color_hl)s }
+                    textarea:focus, input:focus, input[type]:focus, 
+                    .uneditable-input:focus, div[contenteditable="true"]:focus {   
+                        border-color: %(color_hl)s;
+                    }
+            """ % {
+                "btn_bg": conf.get("colors.BUTTON_BG.1"),
+                "color_hl": conf.get("colors.HIGHLIGHT_BG.1"),
+                "color_hl_txt": conf.get("colors.HIGHLIGHT_FG.1"),
             }
-        </style>""" % (btn_bg_night, btn_bg_night)
+
+    web_content.body += wrap_style(extra_style)
 
 
 mw.addonManager.setWebExports(__name__, "recolor.js")
