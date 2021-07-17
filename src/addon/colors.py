@@ -61,7 +61,6 @@ def apply_palette() -> None:
         QPalette.Text: "TEXT_FG",
         QPalette.ButtonText: "TEXT_FG",
         QPalette.HighlightedText: "HIGHLIGHT_FG",
-        QPalette.Highlight: "HIGHLIGHT_BG",
         QPalette.Window: "WINDOW_BG",
         QPalette.AlternateBase: "WINDOW_BG",
         QPalette.Button: "BUTTON_BG",
@@ -80,6 +79,11 @@ def apply_palette() -> None:
     for role in color_map:
         conf_key = color_map[role]
         palette.setColor(role, qcolor(conf_key))
+
+    hlbg = qcolor("HIGHLIGHT_BG")
+    if theme_manager.night_mode:
+        hlbg.setAlpha(64)
+    palette.setColor(QPalette.Highlight, hlbg)
 
     for role in disabled_roles:
         palette.setColor(
