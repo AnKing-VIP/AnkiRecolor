@@ -11,7 +11,7 @@
     "NEW_COUNT": ["New Count", "#00a", "#77ccff", "--new-count"],
     "LEARN_COUNT": ["Learn Count", "#c35617", "#ff935b", "--learn-count"],
     "ZERO_COUNT": ["Zero Count", "#ddd", "#444", "--zero-count"],
-    "SLIGHTLY_GREY_TEXT": ["Slightly Grey Text", "#333", "#ccc", "--slightly-grey-text"],
+    "SLIGHTLY_GREY_TEXT": ["Switch Text", "#333", "#ccc", "--slightly-grey-text"],
     "HIGHLIGHT_BG": ["Highlighted Background", "#77ccff", "#77ccff", "--highlight-bg"],
     "HIGHLIGHT_FG": ["Highlighted Foreground", "black", "white", "--highlight-fg"],
     "DISABLED": ["Disabled", "#777", "#777", "--disabled"],

@@ -66,7 +66,6 @@ def general_tab(conf_window: ConfigWindow) -> None:
         "MEDIUM_BORDER",
         "FAINT_BORDER",
         "LINK",
-        "SLIGHTLY_GREY_TEXT",
         "HIGHLIGHT_BG",
         "HIGHLIGHT_FG",
         "DISABLED",
@@ -103,6 +102,7 @@ def browse_sidebar_tab(conf_window: ConfigWindow) -> None:
 
 def browse_cards_list_tab(conf_window: ConfigWindow) -> None:
     conf_keys = [
+        "SLIGHTLY_GREY_TEXT",
         "SUSPENDED_BG",
         "MARKED_BG",
         "FLAG1_BG",
