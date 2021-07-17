@@ -34,6 +34,7 @@
     "SUSPENDED_BG": ["Suspended Background", "#ffffb2", "#aaaa33", "--suspended-bg"],
     "MARKED_BG": ["Marked Background", "#cce", "#77c", "--marked-bg"],    
     "TOOLTIP_BG": ["Tooltip Background", "#fcfcfc", "#272727", "--tooltip-bg"],
-    "BUTTON_BG": ["Button Background", "#eff0f1", "#454545", ""]
+    "BUTTON_BG": ["Button Background", "#eff0f1", "#454545", ""],
+    "CURRENT_DECK": ["Selected Deck", "#e7e7e7", "#29292b", "--current-deck"]
   }
 }

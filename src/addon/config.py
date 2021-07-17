@@ -69,6 +69,7 @@ def general_tab(conf_window: ConfigWindow) -> None:
         "HIGHLIGHT_FG",
         "LINK",
         "DISABLED",
+        "CURRENT_DECK",
         "NEW_COUNT",
         "LEARN_COUNT",
         "REVIEW_COUNT",

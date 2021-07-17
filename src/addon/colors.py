@@ -102,6 +102,7 @@ def inject_web(web_content: aqt.webview.WebContent, context: Optional[Any]) -> N
     web_content.body += "<script>Recolor.withConfig('{}', {})</script>".format(
         conf.to_json(), color_idx
     )
+    web_content.body += "<style>.current{ background-color: var(--current-deck); }</style>"
     web_content.js.append(file_url("recolor.js"))
 
     # Override night mode button color
