@@ -1,12 +1,12 @@
 import webbrowser
-from typing import Optional
+from typing import List, Optional
 
 from aqt import mw
 from aqt.theme import theme_manager
 from aqt.qt import *
 
 
-from .ankiaddonconfig import ConfigManager, ConfigWindow
+from .ankiaddonconfig import ConfigManager, ConfigWindow, ConfigLayout
 from .colors import recolor_python
 
 conf = ConfigManager()
@@ -47,6 +47,7 @@ def on_save() -> None:
 
 def with_window(conf_window: ConfigWindow) -> None:
     conf_window.setWindowTitle("Recolor Settings")
+    conf_window.setMinimumWidth(500)
     conf_window.execute_on_save(on_save)
     conf_window.main_layout.insertLayout(0, header_layout(conf_window))
     conf_window.main_layout.insertSpacing(1, 10)
@@ -54,6 +55,13 @@ def with_window(conf_window: ConfigWindow) -> None:
 
 def color_idx() -> int:
     return 2 if theme_manager.night_mode else 1
+
+
+def populate_tab(tab: ConfigLayout, conf_keys: List[str]) -> None:
+    for conf_key in conf_keys:
+        description = conf.get(f"colors.{conf_key}.0")
+        tab.color_input(f"colors.{conf_key}.{color_idx()}", description)
+    tab.stretch()
 
 
 def general_tab(conf_window: ConfigWindow) -> None:
@@ -68,18 +76,22 @@ def general_tab(conf_window: ConfigWindow) -> None:
         "HIGHLIGHT_BG",
         "HIGHLIGHT_FG",
         "LINK",
-        "DISABLED",
+        "DISABLED"
+    ]
+    tab = conf_window.add_tab("General")
+    populate_tab(tab, conf_keys)
+
+
+def decks_tab(conf_window: ConfigWindow) -> None:
+    conf_keys = [
         "CURRENT_DECK",
         "NEW_COUNT",
         "LEARN_COUNT",
         "REVIEW_COUNT",
         "ZERO_COUNT"
     ]
-    tab = conf_window.add_tab("General")
-    for conf_key in conf_keys:
-        description = conf.get(f"colors.{conf_key}.0")
-        tab.color_input(f"colors.{conf_key}.{color_idx()}", description)
-    tab.stretch()
+    tab = conf_window.add_tab("Decks")
+    populate_tab(tab, conf_keys)
 
 
 def browse_sidebar_tab(conf_window: ConfigWindow) -> None:
@@ -95,10 +107,7 @@ def browse_sidebar_tab(conf_window: ConfigWindow) -> None:
         "FLAG7_FG",
     ]
     tab = conf_window.add_tab("Browse Sidebar")
-    for conf_key in conf_keys:
-        description = conf.get(f"colors.{conf_key}.0")
-        tab.color_input(f"colors.{conf_key}.{color_idx()}", description)
-    tab.stretch()
+    populate_tab(tab, conf_keys)
 
 
 def browse_cards_list_tab(conf_window: ConfigWindow) -> None:
@@ -117,10 +126,7 @@ def browse_cards_list_tab(conf_window: ConfigWindow) -> None:
         "FLAG7_BG"
     ]
     tab = conf_window.add_tab("Browse Cards List")
-    for conf_key in conf_keys:
-        description = conf.get(f"colors.{conf_key}.0")
-        tab.color_input(f"colors.{conf_key}.{color_idx()}", description)
-    tab.stretch()
+    populate_tab(tab, conf_keys)
 
 
 def getMenu(parent: QWidget, menuName: str) -> QMenu:
@@ -171,5 +177,6 @@ setupMenu()
 conf.use_custom_window()
 conf.on_window_open(with_window)
 conf.add_config_tab(general_tab)
+conf.add_config_tab(decks_tab)
 conf.add_config_tab(browse_sidebar_tab)
 conf.add_config_tab(browse_cards_list_tab)
