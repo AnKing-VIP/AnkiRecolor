@@ -22,7 +22,11 @@ def refresh_all_windows() -> None:
     mw.toolbar.draw()
     # Redraw main body
     if mw.state == "review":
-        mw.reviewer.refresh()
+        if ankiver_minor >= 45:
+            mw.reviewer.refresh()  # type: ignore
+        else:
+            mw.reviewer._initWeb()
+            mw.reviewer._showQuestion()
     elif mw.state == "overview":
         mw.overview.refresh()
     elif mw.state == "deckBrowser":
