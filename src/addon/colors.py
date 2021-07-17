@@ -1,13 +1,16 @@
 from typing import Any, Optional
 
+from anki import version as ankiversion
+
 import aqt
-from aqt import theme
-from aqt.theme import theme_manager, colors
+from aqt.webview import AnkiWebView
 from aqt import gui_hooks, mw, dialogs
+from aqt.theme import theme_manager, colors
 from aqt.qt import QColor, QPalette, Qt
 
 from .ankiaddonconfig import ConfigManager
 
+ankiver_minor = int(ankiversion.split(".")[2])
 conf = ConfigManager()
 
 
@@ -39,6 +42,7 @@ def recolor_python() -> None:
             setattr(colors, color_name, new_color_value)
     apply_palette()
     theme_manager._apply_style(mw.app)
+    replace_webview_bg()
     refresh_all_windows()
 
 
@@ -86,6 +90,19 @@ def apply_palette() -> None:
     mw.app.setPalette(palette)
     # webview palette uses default one
     theme_manager.default_palette = palette
+
+
+def get_window_bg_color(*args) -> QColor:
+    color_idx = 2 if theme_manager.night_mode else 1
+    hex_color = conf.get(f"colors.WINDOW_BG.{color_idx}")
+    return QColor(hex_color)
+
+
+def replace_webview_bg() -> None:
+    if 26 <= ankiver_minor <= 44:
+        AnkiWebView._getWindowColor = get_window_bg_color
+    elif 45 <= ankiver_minor:
+        AnkiWebView.get_window_bg_color = get_window_bg_color
 
 
 # Recolor CSS Colors
