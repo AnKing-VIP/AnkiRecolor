@@ -94,10 +94,10 @@ def apply_palette() -> None:
 
     mw.app.setPalette(palette)
     # webview palette uses default one
-    theme_manager.default_palette = palette
+    theme_manager.default_palette = palette  # type: ignore
 
 
-def get_window_bg_color(*args) -> QColor:
+def get_window_bg_color(*args: Any) -> QColor:
     color_idx = 2 if theme_manager.night_mode else 1
     hex_color = conf.get(f"colors.WINDOW_BG.{color_idx}")
     return QColor(hex_color)
@@ -105,9 +105,9 @@ def get_window_bg_color(*args) -> QColor:
 
 def replace_webview_bg() -> None:
     if 26 <= ankiver_minor <= 44:
-        AnkiWebView._getWindowColor = get_window_bg_color
+        AnkiWebView._getWindowColor = get_window_bg_color  # type: ignore
     elif 45 <= ankiver_minor:
-        AnkiWebView.get_window_bg_color = get_window_bg_color
+        AnkiWebView.get_window_bg_color = get_window_bg_color  # type: ignore
 
 
 # Recolor CSS Colors

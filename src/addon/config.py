@@ -138,7 +138,7 @@ def getMenu(parent: QWidget, menuName: str) -> QMenu:
         return menubar.addMenu(menuName)
 
 
-def create_sub_menu_if_not_exist(menu, subMenuName) -> Optional[QMenu]:
+def create_sub_menu_if_not_exist(menu: QMenu, subMenuName: str) -> Optional[QMenu]:
     for a in menu.actions():
         if subMenuName == a.text():
             return None
