@@ -3,6 +3,8 @@ from aqt import mw
 
 from .ankiaddonconfig import ConfigManager
 
+conf = ConfigManager()
+
 
 class Version:
     def __init__(self) -> None:
@@ -32,13 +34,15 @@ class Version:
 
 
 version = Version()
-conf = ConfigManager()
 
 
 addon_dir = mw.addonManager.addonFromModule(__name__)
 meta = mw.addonManager.addonMeta(addon_dir)
 
-version_string = meta["human_version"]
-conf["version.major"] = int(version_string.split(".")[0])
-conf["version.minor"] = int(version_string.split(".")[1])
-conf.save()
+try:
+    version_string = meta["human_version"]
+    conf["version.major"] = int(version_string.split(".")[0])
+    conf["version.minor"] = int(version_string.split(".")[1])
+    conf.save()
+except:
+    print("ERROR: Recolor - No human version")
