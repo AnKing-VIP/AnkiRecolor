@@ -6,7 +6,7 @@ git submodule update --init --recursive
 ```
 The command installs [ankiaddonconfig](https://github.com/BlueGreenMagick/ankiaddonconfig/) as a git submodule.
 
-To update icons_rc.py file after changes to [icons.qrc](src/addon/AnKing/icons.qrc), run the following command.
+To update icons_rc.py file after changes to [icons.qrc](src/addon/AnKing/icons.qrc), run the following command, then edit the file to add `-> None` type hint.
 ```bash
 pyrcc5 ./src/addon/AnKing/icons.qrc -o ./src/addon/icons_rc.py
 ```
