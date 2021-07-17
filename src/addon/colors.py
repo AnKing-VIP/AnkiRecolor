@@ -33,9 +33,10 @@ def recolor_python() -> None:
     conf.load()
     color_entries = conf.get("colors")
     for color_name in color_entries:
-        color_entry = color_entries[color_name]
-        new_color_value = (color_entry[1], color_entry[2])
-        setattr(colors, color_name, new_color_value)
+        if getattr(colors, color_name, None) is not None:
+            color_entry = color_entries[color_name]
+            new_color_value = (color_entry[1], color_entry[2])
+            setattr(colors, color_name, new_color_value)
     apply_palette()
     theme_manager._apply_style(mw.app)
     refresh_all_windows()
