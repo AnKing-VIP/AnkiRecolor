@@ -35,6 +35,9 @@ def refresh_all_windows() -> None:
     browser = dialogs._dialogs["Browser"][1]
     if browser:
         browser.closeWithCallback(lambda: None)
+    if mw.flags is not None:  # v2.1.45+
+        if mw.col is not None:
+            mw.flags._load_flags()
 
 
 def recolor_python() -> None:
