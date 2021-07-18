@@ -45,4 +45,4 @@ try:
     conf["version.minor"] = int(version_string.split(".")[1])
     conf.save()
 except:
-    print("ERROR: Recolor - No human version")
+    print("ERROR: ReColor - No human version")

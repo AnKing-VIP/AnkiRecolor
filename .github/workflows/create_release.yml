@@ -47,4 +47,4 @@ jobs:
           repo_token: ${{ github.token }}
           file: "recolor_v${{ github.event.inputs.version }}.ankiaddon"
           tag: ${{ github.event.inputs.version }}
-          release_name: Recolor v${{ github.event.inputs.version }}
+          release_name: ReColor v${{ github.event.inputs.version }}

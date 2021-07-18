@@ -15,7 +15,7 @@ ankiver_minor = int(ankiversion.split(".")[2])
 conf = ConfigManager()
 
 
-# Recolor Python Colors
+# ReColor Python Colors
 
 def refresh_all_windows() -> None:
     # Redraw top toolbar
@@ -114,7 +114,7 @@ def replace_webview_bg() -> None:
         AnkiWebView.get_window_bg_color = get_window_bg_color  # type: ignore
 
 
-# Recolor CSS Colors
+# ReColor CSS Colors
 
 def file_url(file_name: str) -> str:
     addon_package = mw.addonManager.addonFromModule(__name__)
@@ -129,7 +129,7 @@ def inject_web(web_content: aqt.webview.WebContent, context: Optional[Any]) -> N
     conf.load()
     night_mode = theme_manager.night_mode
     color_idx = 2 if night_mode else 1
-    web_content.body += "<script>Recolor.withConfig('{}', {})</script>".format(
+    web_content.body += "<script>ReColor.withConfig('{}', {})</script>".format(
         conf.to_json(), color_idx
     )
     web_content.body += "<style>.current{ background-color: var(--current-deck); }</style>"

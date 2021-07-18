@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="Recolor">
+    <qresource prefix="ReColor">
         <file>AnKingSmall.png</file>
         <file>Facebook.png</file>
         <file>Instagram.png</file>

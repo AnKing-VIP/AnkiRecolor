@@ -25,7 +25,7 @@ def header_layout(conf_window: ConfigWindow) -> QHBoxLayout:
     for image in images:
         icon = QIcon()
         icon.addPixmap(
-            QPixmap(f":/Recolor/{image[0]}"), QIcon.Normal, QIcon.Off)
+            QPixmap(f":/ReColor/{image[0]}"), QIcon.Normal, QIcon.Off)
         button = QToolButton(conf_window)
         button.setIcon(icon)
         button.setIconSize(QSize(*image[1]))
@@ -46,7 +46,7 @@ def on_save() -> None:
 
 
 def with_window(conf_window: ConfigWindow) -> None:
-    conf_window.setWindowTitle("Recolor Settings")
+    conf_window.setWindowTitle("ReColor Settings")
     conf_window.setMinimumWidth(500)
     conf_window.execute_on_save(on_save)
     conf_window.main_layout.insertLayout(0, header_layout(conf_window))
@@ -163,7 +163,7 @@ def setupMenu() -> None:
             act = QAction(t, mw)
             act.triggered.connect(lambda _: open_web(url))
             submenu.addAction(act)
-    a = QAction("Recolor", mw)
+    a = QAction("ReColor", mw)
     a.triggered.connect(conf.open_config)
     menu.addAction(a)
 

@@ -1,7 +1,7 @@
-/* global Recolor */
+/* global ReColor */
 
-window.Recolor = {}
-Recolor.withConfig = function (confstr, colorIdx) {
+window.ReColor = {}
+ReColor.withConfig = function (confstr, colorIdx) {
   const conf = JSON.parse(confstr)
   const colors = conf.colors
   for (const colorName in colors) {
