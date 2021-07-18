@@ -31,7 +31,7 @@ def header_layout(conf_window: ConfigWindow) -> QHBoxLayout:
         button.setIconSize(QSize(*image[1]))
         button.setMaximumSize(QSize(*image[1]))
         button.setMinimumSize(QSize(*image[1]))
-        button.clicked.connect(lambda _: open_web(image[2]))
+        button.clicked.connect(lambda _, url=image[2]: open_web(url))
         button.setCursor(QCursor(Qt.PointingHandCursor))
         button.setStyleSheet(
             "QToolButton { border: none; }")
