@@ -30,12 +30,6 @@ jobs:
         uses: EndBug/add-and-commit@v7.1.1
         with:
           message: Bump Version to v${{ github.event.inputs.version }}
-      
-      - name: Push new version with tag
-        uses: ad-m/github-push-action@v0.6.0
-        with:
-          github_token: ${{ github.token }}
-          branch: master
           tags: ${{ github.event.inputs.version }}
           
       - name: Create ankiaddon file
