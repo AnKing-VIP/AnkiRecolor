@@ -1,8 +1,8 @@
-import webbrowser
 from typing import List, Optional
 
 from aqt import mw
 from aqt.theme import theme_manager
+from aqt.utils import openLink
 from aqt.qt import *
 
 
@@ -169,7 +169,7 @@ def setupMenu() -> None:
 
 
 def open_web(url: str) -> None:
-    webbrowser.open(f"https://{url}")
+    openLink(f"https://{url}")
 
 
 setupMenu()
