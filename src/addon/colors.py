@@ -35,7 +35,7 @@ def refresh_all_windows() -> None:
     browser = dialogs._dialogs["Browser"][1]
     if browser:
         browser.closeWithCallback(lambda: None)
-    if mw.flags is not None:  # v2.1.45+
+    if ankiver_minor >= 45:  # has mw.flags
         if mw.col is not None:
             mw.flags._load_flags()
 
