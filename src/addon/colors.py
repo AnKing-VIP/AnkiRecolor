@@ -1,7 +1,6 @@
 from typing import Any, Optional
 
-from anki import version as ankiversion
-from anki.utils import isWin, isMac
+from anki.utils import isWin, isMac, pointVersion
 
 import aqt
 from aqt.webview import AnkiWebView
@@ -11,11 +10,12 @@ from aqt.qt import QColor, QPalette, Qt
 
 from .ankiaddonconfig import ConfigManager
 
-ankiver_minor = int(ankiversion.split(".")[2])
+ankiver_minor = pointVersion()
 conf = ConfigManager()
 
 
 # ReColor Python Colors
+
 
 def refresh_all_windows() -> None:
     # Redraw top toolbar
