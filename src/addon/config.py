@@ -1,10 +1,8 @@
-from typing import List, Optional
+from typing import List
 
-from aqt import mw
-from aqt.theme import theme_manager
-from aqt.utils import openLink
 from aqt.qt import *
-
+from aqt.utils import openLink
+from aqt.theme import theme_manager
 
 from .ankiaddonconfig import ConfigManager, ConfigWindow, ConfigLayout
 from .colors import recolor_python
@@ -20,12 +18,11 @@ def header_layout(conf_window: ConfigWindow) -> QHBoxLayout:
         ("YouTube.png", (31, 31), "www.youtube.com/theanking"),
         ("Patreon.png", (221, 31), "www.patreon.com/ankingmed"),
         ("Instagram.png", (31, 31), "instagram.com/ankingmed"),
-        ("Facebook.png", (31, 31), "facebook.com/ankingmed")
+        ("Facebook.png", (31, 31), "facebook.com/ankingmed"),
     ]
     for image in images:
         icon = QIcon()
-        icon.addPixmap(
-            QPixmap(f":/ReColor/{image[0]}"), QIcon.Normal, QIcon.Off)
+        icon.addPixmap(QPixmap(f":/ReColor/{image[0]}"), QIcon.Normal, QIcon.Off)
         button = QToolButton(conf_window)
         button.setIcon(icon)
         button.setIconSize(QSize(*image[1]))
@@ -33,8 +30,7 @@ def header_layout(conf_window: ConfigWindow) -> QHBoxLayout:
         button.setMinimumSize(QSize(*image[1]))
         button.clicked.connect(lambda _, url=image[2]: open_web(url))
         button.setCursor(QCursor(Qt.PointingHandCursor))
-        button.setStyleSheet(
-            "QToolButton { border: none; }")
+        button.setStyleSheet("QToolButton { border: none; }")
         icons_layout.addWidget(button)
     icons_layout.addStretch()
     return icons_layout
@@ -76,7 +72,7 @@ def general_tab(conf_window: ConfigWindow) -> None:
         "HIGHLIGHT_BG",
         "HIGHLIGHT_FG",
         "LINK",
-        "DISABLED"
+        "DISABLED",
     ]
     tab = conf_window.add_tab("General")
     populate_tab(tab, conf_keys)
@@ -88,7 +84,7 @@ def decks_tab(conf_window: ConfigWindow) -> None:
         "NEW_COUNT",
         "LEARN_COUNT",
         "REVIEW_COUNT",
-        "ZERO_COUNT"
+        "ZERO_COUNT",
     ]
     tab = conf_window.add_tab("Decks")
     populate_tab(tab, conf_keys)
@@ -123,56 +119,15 @@ def browse_cards_list_tab(conf_window: ConfigWindow) -> None:
         "FLAG4_BG",
         "FLAG5_BG",
         "FLAG6_BG",
-        "FLAG7_BG"
+        "FLAG7_BG",
     ]
     tab = conf_window.add_tab("Browse Cards List")
     populate_tab(tab, conf_keys)
 
 
-def getMenu(parent: QWidget, menuName: str) -> QMenu:
-    menubar = parent.form.menubar
-    for a in menubar.actions():
-        if menuName == a.text():
-            return a.menu()
-    else:
-        return menubar.addMenu(menuName)
-
-
-def create_sub_menu_if_not_exist(menu: QMenu, subMenuName: str) -> Optional[QMenu]:
-    for a in menu.actions():
-        if subMenuName == a.text():
-            return None
-    else:
-        subMenu = QMenu(subMenuName, menu)
-        menu.addMenu(subMenu)
-        return subMenu
-
-
-def setupMenu() -> None:
-    MENU_OPTIONS = [
-        ("Online Mastery Course",
-         "courses.ankipalace.com/?utm_source=anking_bg_add-on&utm_medium=anki_add-on&utm_campaign=mastery_course"),
-        ("Daily Q and A Support", "www.ankipalace.com/memberships"),
-        ("1-on-1 Tutoring", "www.ankipalace.com/tutoring")
-    ]
-    menu_name = "&AnKing"
-    menu = getMenu(mw, menu_name)
-    submenu = create_sub_menu_if_not_exist(menu, "Get Anki Help")
-    if submenu:
-        for t, url in MENU_OPTIONS:
-            act = QAction(t, mw)
-            act.triggered.connect(lambda _: open_web(url))
-            submenu.addAction(act)
-    a = QAction("ReColor", mw)
-    a.triggered.connect(conf.open_config)
-    menu.addAction(a)
-
-
 def open_web(url: str) -> None:
     openLink(f"https://{url}")
 
-
-setupMenu()
 
 conf.use_custom_window()
 conf.on_window_open(with_window)
