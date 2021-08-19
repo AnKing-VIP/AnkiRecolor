@@ -75,7 +75,7 @@ def get_anking_menu() -> QMenu:
 
 def setupMenu() -> None:
     menu = get_anking_menu()
-    a = QAction("ReColor", mw)
+    a = QAction("ReColor", menu)
     a.triggered.connect(conf.open_config)
     menu.addAction(a)
 
