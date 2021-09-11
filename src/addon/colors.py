@@ -22,11 +22,11 @@ def refresh_all_windows() -> None:
     mw.toolbar.draw()
     # Redraw main body
     if mw.state == "review":
-        if ankiver_minor >= 45:
-            mw.reviewer.refresh()  # type: ignore
-        else:
-            mw.reviewer._initWeb()
+        mw.reviewer._initWeb()
+        if mw.reviewer.state == "question":
             mw.reviewer._showQuestion()
+        else:
+            mw.reviewer._showAnswer()
     elif mw.state == "overview":
         mw.overview.refresh()
     elif mw.state == "deckBrowser":
@@ -73,13 +73,9 @@ def apply_palette() -> None:
         QPalette.Button: "BUTTON_BG",
         QPalette.Base: "FRAME_BG",
         QPalette.ToolTipBase: "FRAME_BG",
-        QPalette.Link: "LINK"
+        QPalette.Link: "LINK",
     }
-    disabled_roles = [
-        QPalette.Text,
-        QPalette.ButtonText,
-        QPalette.HighlightedText
-    ]
+    disabled_roles = [QPalette.Text, QPalette.ButtonText, QPalette.HighlightedText]
 
     palette = QPalette()
 
@@ -93,8 +89,7 @@ def apply_palette() -> None:
     palette.setColor(QPalette.Highlight, hlbg)
 
     for role in disabled_roles:
-        palette.setColor(
-            QPalette.Disabled, role, qcolor("DISABLED"))
+        palette.setColor(QPalette.Disabled, role, qcolor("DISABLED"))
 
     if theme_manager.night_mode:
         palette.setColor(QPalette.BrightText, Qt.red)
@@ -119,6 +114,7 @@ def replace_webview_bg() -> None:
 
 # ReColor CSS Colors
 
+
 def file_url(file_name: str) -> str:
     addon_package = mw.addonManager.addonFromModule(__name__)
     return f"/_addons/{addon_package}/{file_name}"
@@ -135,7 +131,9 @@ def inject_web(web_content: aqt.webview.WebContent, context: Optional[Any]) -> N
     web_content.body += "<script>ReColor.withConfig('{}', {})</script>".format(
         conf.to_json(), color_idx
     )
-    web_content.body += "<style>.current{ background-color: var(--current-deck); }</style>"
+    web_content.body += (
+        "<style>.current{ background-color: var(--current-deck); }</style>"
+    )
     web_content.js.append(file_url("recolor.js"))
 
     # Override night mode button color
@@ -161,13 +159,17 @@ def inject_web(web_content: aqt.webview.WebContent, context: Optional[Any]) -> N
                 button:focus {
                     outline: 1px solid %s
                 }
-            """ % conf.get("colors.HIGHLIGHT_BG.1")
+            """ % conf.get(
+                "colors.HIGHLIGHT_BG.1"
+            )
         elif isMac:
             extra_style += """
                 button {
                     background: %(btn_bg)s;
                 }
-            """ % {"btn_bg": conf.get("colors.BUTTON_BG.1")}
+            """ % {
+                "btn_bg": conf.get("colors.BUTTON_BG.1")
+            }
         else:
             extra_style += """
                     button {
