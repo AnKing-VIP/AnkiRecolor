@@ -63,19 +63,19 @@ def qcolor(conf_key: str) -> QColor:
 def apply_palette() -> None:
     # theme_manager._apply_palette() can only be run in night mode
     color_map = {
-        QPalette.WindowText: "TEXT_FG",
-        QPalette.ToolTipText: "TEXT_FG",
-        QPalette.Text: "TEXT_FG",
-        QPalette.ButtonText: "TEXT_FG",
-        QPalette.HighlightedText: "HIGHLIGHT_FG",
-        QPalette.Window: "WINDOW_BG",
-        QPalette.AlternateBase: "WINDOW_BG",
-        QPalette.Button: "BUTTON_BG",
-        QPalette.Base: "FRAME_BG",
-        QPalette.ToolTipBase: "FRAME_BG",
-        QPalette.Link: "LINK",
+        QPalette.ColorRole.WindowText: "TEXT_FG",
+        QPalette.ColorRole.ToolTipText: "TEXT_FG",
+        QPalette.ColorRole.Text: "TEXT_FG",
+        QPalette.ColorRole.ButtonText: "TEXT_FG",
+        QPalette.ColorRole.HighlightedText: "HIGHLIGHT_FG",
+        QPalette.ColorRole.Window: "WINDOW_BG",
+        QPalette.ColorRole.AlternateBase: "WINDOW_BG",
+        QPalette.ColorRole.Button: "BUTTON_BG",
+        QPalette.ColorRole.Base: "FRAME_BG",
+        QPalette.ColorRole.ToolTipBase: "FRAME_BG",
+        QPalette.ColorRole.Link: "LINK",
     }
-    disabled_roles = [QPalette.Text, QPalette.ButtonText, QPalette.HighlightedText]
+    disabled_roles = [QPalette.ColorRole.Text, QPalette.ColorRole.ButtonText, QPalette.ColorRole.HighlightedText]
 
     palette = QPalette()
 
@@ -86,13 +86,13 @@ def apply_palette() -> None:
     hlbg = qcolor("HIGHLIGHT_BG")
     if theme_manager.night_mode:
         hlbg.setAlpha(64)
-    palette.setColor(QPalette.Highlight, hlbg)
+    palette.setColor(QPalette.ColorRole.Highlight, hlbg)
 
     for role in disabled_roles:
-        palette.setColor(QPalette.Disabled, role, qcolor("DISABLED"))
+        palette.setColor(QPalette.ColorGroup.Disabled, role, qcolor("DISABLED"))
 
     if theme_manager.night_mode:
-        palette.setColor(QPalette.BrightText, Qt.red)
+        palette.setColor(QPalette.ColorRole.BrightText, Qt.GlobalColor.red)
 
     mw.app.setPalette(palette)
     # webview palette uses default one

@@ -22,14 +22,14 @@ def header_layout(conf_window: ConfigWindow) -> QHBoxLayout:
     ]
     for image in images:
         icon = QIcon()
-        icon.addPixmap(QPixmap(f":/ReColor/{image[0]}"), QIcon.Normal, QIcon.Off)
+        icon.addPixmap(QPixmap(f":/ReColor/{image[0]}"), QIcon.Mode.Normal, QIcon.State.Off)
         button = QToolButton(conf_window)
         button.setIcon(icon)
         button.setIconSize(QSize(*image[1]))
         button.setMaximumSize(QSize(*image[1]))
         button.setMinimumSize(QSize(*image[1]))
         button.clicked.connect(lambda _, url=image[2]: open_web(url))
-        button.setCursor(QCursor(Qt.PointingHandCursor))
+        button.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         button.setStyleSheet("QToolButton { border: none; }")
         icons_layout.addWidget(button)
     icons_layout.addStretch()
