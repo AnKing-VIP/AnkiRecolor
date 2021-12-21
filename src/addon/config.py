@@ -1,4 +1,5 @@
 from typing import List
+from pathlib import Path
 
 from aqt.qt import *
 from aqt.utils import openLink
@@ -9,6 +10,7 @@ from .colors import recolor_python
 
 conf = ConfigManager()
 
+QDir.addSearchPath("ReColor", str(Path(__file__).parent / "AnKing"))
 
 def header_layout(conf_window: ConfigWindow) -> QHBoxLayout:
     icons_layout = QHBoxLayout()
@@ -22,7 +24,7 @@ def header_layout(conf_window: ConfigWindow) -> QHBoxLayout:
     ]
     for image in images:
         icon = QIcon()
-        icon.addPixmap(QPixmap(f":/ReColor/{image[0]}"), QIcon.Mode.Normal, QIcon.State.Off)
+        icon.addPixmap(QPixmap(f"ReColor:{image[0]}"), QIcon.Mode.Normal, QIcon.State.Off)
         button = QToolButton(conf_window)
         button.setIcon(icon)
         button.setIconSize(QSize(*image[1]))
