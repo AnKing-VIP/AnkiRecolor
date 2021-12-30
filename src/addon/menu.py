@@ -62,7 +62,7 @@ def get_anking_menu() -> QMenu:
     menubar = mw.form.menubar
     for a in menubar.actions():
         if menu_name == a.text():
-            menu = a.menu()
+            menu = a.parent()
             break
     else:
         menu = menubar.addMenu(menu_name)
