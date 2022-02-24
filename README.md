@@ -13,10 +13,9 @@ ReColor your Anki desktop to whatever aesthetic you like! Combine with the <a hr
 
 ## Screenshots
 
-<img src="https://raw.githubusercontent.com/AnKingMed/AnkiRecolor/master/screenshots/config.png?raw=true">
-<img src="https://raw.githubusercontent.com/AnKingMed/AnkiRecolor/master/screenshots/browserblue.png?raw=true">
-<img src="https://raw.githubusercontent.com/AnKingMed/AnkiRecolor/master/screenshots/browsermulti.png?raw=true">
-
+<img src="https://raw.githubusercontent.com/AnKingMed/AnkiRecolor/main/screenshots/config.png?raw=true">
+<img src="https://raw.githubusercontent.com/AnKingMed/AnkiRecolor/main/screenshots/browserblue.png?raw=true">
+<img src="https://raw.githubusercontent.com/AnKingMed/AnkiRecolor/main/screenshots/browsermulti.png?raw=true">
 
 # Development
 ## Setup
