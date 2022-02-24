@@ -7,12 +7,15 @@ ReColor your Anki desktop to whatever aesthetic you like! Combine with the <a hr
 - The colors listed are everything that Anki customizes (unfortunately some things are linked together so changing one will change the other and there's no way around that for us)
 - Once you click "Save", the colors will update. 
 - Click "Advanced" if you want to input html colors or see the underlying code
+
+
 <b>Share your pictures with #ReColorAnKing and tag @AnKingMed on social media so we can re-share it!</b>
 
 ## Screenshots
-<img src="https://raw.githubusercontent.com/AnKingMed/AnkiRecolor/main/screenshots/config.png?raw=true">
-<img src="https://raw.githubusercontent.com/AnKingMed/AnkiRecolor/main/screenshots/browserblue.png?raw=true">
-<img src="https://raw.githubusercontent.com/AnKingMed/AnkiRecolor/main/screenshots/browsermulti.png?raw=true">
+
+<img src="https://raw.githubusercontent.com/AnKingMed/AnkiRecolor/master/screenshots/config.png?raw=true">
+<img src="https://raw.githubusercontent.com/AnKingMed/AnkiRecolor/master/screenshots/browserblue.png?raw=true">
+<img src="https://raw.githubusercontent.com/AnKingMed/AnkiRecolor/master/screenshots/browsermulti.png?raw=true">
 
 
 # Development
