@@ -1,7 +1,7 @@
 ReColor your Anki desktop to whatever aesthetic you like! Combine with the <a href="https://ankiweb.net/shared/info/1210908941">Custom Background and Gear Icon add-on</a> for an amazing look!
 
 # How to Use
-- Download from [AnkiWeb]()
+- Download from [AnkiWeb](https://ankiweb.net/shared/info/688199788)
     - This add-on has been tested for Anki 2.1.41+ up to 2.1.50. It may work on older versions, but it has NOT been tested and we can't provide support for that at the moment.
 - After installing, there will be an AnKing menu at the top. Click the ReColor submenu to open the ReColor dialog
 - The colors listed are everything that Anki customizes (unfortunately some things are linked together so changing one will change the other and there's no way around that for us)
