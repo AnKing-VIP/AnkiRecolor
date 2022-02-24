@@ -43,7 +43,6 @@ def maybe_add_get_help_submenu(menu: QMenu) -> None:
             submenu = create_get_help_submenu(menu)
             menu.insertMenu(act, submenu)
             menu.removeAction(act)
-            act.deleteLater()
             new_act = submenu.menuAction()
             new_act.setProperty(submenu_property, True)
             new_act.setProperty("version", submenu_ver)
