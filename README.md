@@ -12,7 +12,7 @@ ReColor your Anki desktop to whatever aesthetic you like! Combine with the <a hr
 <b>Share your pictures with #ReColorAnKing and tag @AnKingMed on social media so we can re-share it!</b>
 
 ## Screenshots
-
+See this example of a Solarized theme you can download: <a href="https://www.reddit.com/r/Anki/comments/t1w1gz/solarized_anki_theme_using_recolor_addon/?utm_source=share&utm_medium=web2x&context=3">link</a>
 <img src="https://raw.githubusercontent.com/AnKingMed/AnkiRecolor/main/screenshots/config.png?raw=true">
 <img src="https://raw.githubusercontent.com/AnKingMed/AnkiRecolor/main/screenshots/browserblue.png?raw=true">
 <img src="https://raw.githubusercontent.com/AnKingMed/AnkiRecolor/main/screenshots/browsermulti.png?raw=true">
