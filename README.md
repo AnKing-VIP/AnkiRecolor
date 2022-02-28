@@ -13,7 +13,11 @@ ReColor your Anki desktop to whatever aesthetic you like! Combine with the <a hr
 
 ## Community themes
 - [Nord](themes/nord.json) by [u/Various_Breadfruit48](https://www.reddit.com/r/Anki/comments/t2y9xx/nord_theme_for_anki_using_the_awesome_recolor/?utm_source=share&utm_medium=web2x&context=3)
-  ![image](https://user-images.githubusercontent.com/73290412/155923384-284d958a-39a6-4428-b88b-25c965942042.png)
+  - Dark theme
+    ![image](https://user-images.githubusercontent.com/73290412/155923384-284d958a-39a6-4428-b88b-25c965942042.png)
+  
+  - Light theme
+    ![image](https://user-images.githubusercontent.com/73290412/155977209-efa344d9-d467-451f-a063-0142187f934a.png)
 
 - [Solarized dark](themes/solarized-dark.json) by [u/No_Walk9711](https://www.reddit.com/r/Anki/comments/t2lkb3/dark_mode_solarized_anki_theme_using_recolor_addon/?utm_source=share&utm_medium=web2x&context=3)
   ![image](https://user-images.githubusercontent.com/73290412/155923721-0e297593-a32d-440a-aed2-fa490b445cf2.png)
