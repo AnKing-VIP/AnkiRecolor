@@ -11,11 +11,15 @@ ReColor your Anki desktop to whatever aesthetic you like! Combine with the <a hr
 
 <b>Share your pictures with #ReColorAnKing and tag @AnKingMed on social media so we can re-share it!</b>
 
-## Screenshots
-See this example of a Solarized theme you can download: <a href="https://www.reddit.com/r/Anki/comments/t1w1gz/solarized_anki_theme_using_recolor_addon/?utm_source=share&utm_medium=web2x&context=3">link</a>
-<img src="https://raw.githubusercontent.com/AnKingMed/AnkiRecolor/main/screenshots/config.png?raw=true">
-<img src="https://raw.githubusercontent.com/AnKingMed/AnkiRecolor/main/screenshots/browserblue.png?raw=true">
-<img src="https://raw.githubusercontent.com/AnKingMed/AnkiRecolor/main/screenshots/browsermulti.png?raw=true">
+## Community themes
+- [Nord](themes/nord.json) by [u/Various_Breadfruit48](https://www.reddit.com/r/Anki/comments/t2y9xx/nord_theme_for_anki_using_the_awesome_recolor/?utm_source=share&utm_medium=web2x&context=3)
+  ![image](https://user-images.githubusercontent.com/73290412/155923384-284d958a-39a6-4428-b88b-25c965942042.png)
+
+- [Solarized dark](themes/solarized-dark.json) by [u/No_Walk9711](https://www.reddit.com/r/Anki/comments/t2lkb3/dark_mode_solarized_anki_theme_using_recolor_addon/?utm_source=share&utm_medium=web2x&context=3)
+  ![image](https://user-images.githubusercontent.com/73290412/155923721-0e297593-a32d-440a-aed2-fa490b445cf2.png)
+ 
+- [Solarized light](themes/solarized-light.json) by [u/BlueGreenMagick](https://www.reddit.com/r/Anki/comments/t1w1gz/solarized_anki_theme_using_recolor_addon/?utm_source=share&utm_medium=web2x&context=3)
+  ![image](https://user-images.githubusercontent.com/73290412/155923938-a13e185b-782c-48db-9eb9-c2488cca398c.png)
 
 # Development
 ## Setup
