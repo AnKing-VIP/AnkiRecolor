@@ -12,6 +12,7 @@ conf = ConfigManager()
 
 QDir.addSearchPath("ReColor", str(Path(__file__).parent / "AnKing"))
 
+
 def header_layout(conf_window: ConfigWindow) -> QHBoxLayout:
     icons_layout = QHBoxLayout()
     icons_layout.addStretch()
@@ -24,7 +25,9 @@ def header_layout(conf_window: ConfigWindow) -> QHBoxLayout:
     ]
     for image in images:
         icon = QIcon()
-        icon.addPixmap(QPixmap(f"ReColor:{image[0]}"), QIcon.Mode.Normal, QIcon.State.Off)
+        icon.addPixmap(
+            QPixmap(f"ReColor:{image[0]}"), QIcon.Mode.Normal, QIcon.State.Off
+        )
         button = QToolButton(conf_window)
         button.setIcon(icon)
         button.setIconSize(QSize(*image[1]))
@@ -127,6 +130,17 @@ def browse_cards_list_tab(conf_window: ConfigWindow) -> None:
     populate_tab(tab, conf_keys)
 
 
+def themes_tab(conf_window: ConfigWindow) -> None:
+    tab = conf_window.add_tab("Themes")
+    tab.space(10)
+    tab.text_button(
+        "View other themes on the web",
+        "https://github.com/AnKingMed/AnkiRecolor/wiki/Themes",
+        lambda _: open_web("github.com/AnKingMed/AnkiRecolor/wiki/Themes"),
+    )
+    tab.stretch()
+
+
 def open_web(url: str) -> None:
     openLink(f"https://{url}")
 
@@ -137,3 +151,4 @@ conf.add_config_tab(general_tab)
 conf.add_config_tab(decks_tab)
 conf.add_config_tab(browse_sidebar_tab)
 conf.add_config_tab(browse_cards_list_tab)
+conf.add_config_tab(themes_tab)
