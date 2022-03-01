@@ -172,7 +172,7 @@ def themes_tab(conf_window: ConfigWindow) -> None:
     tab.space(10)
 
     tab.text(
-        "You may need to toggle dark mode in Anki preferences to see changes",
+        "Note: You may need to toggle dark mode in Anki preferences to see changes",
         multiline=True,
     )
 
