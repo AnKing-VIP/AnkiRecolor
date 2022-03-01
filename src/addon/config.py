@@ -149,17 +149,32 @@ def themes_list() -> List[str]:
 def apply_theme(conf_window: ConfigWindow, theme: str) -> None:
     theme_path = THEMES_DIR / f"{theme}.json"
     theme_json = json.loads(theme_path.read_text())
-    conf._config.clear()
-    conf._config.update(theme_json)
+
+    if theme.startswith("(dark)"):
+        modeidx = 2
+    elif theme.startswith("(light)"):
+        modeidx = 1
+    else:
+        tooltip("Invalid theme name<br />Theme name must start with (light) or (dark)")
+        return
+
+    for color in theme_json["colors"]:
+        conf[f"colors.{color}.{modeidx}"] = theme_json["colors"][color][modeidx]
+
     conf_window.update_widgets()
     conf_window.main_tab.setCurrentIndex(0)
 
-    tooltip(f"Applied {theme} theme<br />Press save to save changes")
+    tooltip(f"Applied theme: {theme}<br />Press save to save changes")
 
 
 def themes_tab(conf_window: ConfigWindow) -> None:
     tab = conf_window.add_tab("Themes")
     tab.space(10)
+
+    tab.text(
+        "You may need to toggle dark mode in Anki preferences to see changes",
+        multiline=True,
+    )
 
     apply_lay = tab.hlayout()
     apply_lay.text("Themes:")
