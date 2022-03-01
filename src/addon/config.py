@@ -1,16 +1,24 @@
 from typing import List
 from pathlib import Path
+import json
 
 from aqt.qt import *
-from aqt.utils import openLink
+from aqt.utils import openLink, tooltip
 from aqt.theme import theme_manager
 
 from .ankiaddonconfig import ConfigManager, ConfigWindow, ConfigLayout
 from .colors import recolor_python
 
+THEMES_DIR = Path(__file__).parent / "themes"
+
+
 conf = ConfigManager()
 
 QDir.addSearchPath("ReColor", str(Path(__file__).parent / "AnKing"))
+
+
+def open_web(url: str) -> None:
+    openLink(f"https://{url}")
 
 
 def header_layout(conf_window: ConfigWindow) -> QHBoxLayout:
@@ -130,19 +138,49 @@ def browse_cards_list_tab(conf_window: ConfigWindow) -> None:
     populate_tab(tab, conf_keys)
 
 
+def themes_list() -> List[str]:
+    themes = []
+    for child in THEMES_DIR.iterdir():
+        if child.is_file() and child.suffix == ".json":
+            themes.append(child.stem)
+    return themes
+
+
+def apply_theme(conf_window: ConfigWindow, theme: str) -> None:
+    theme_path = THEMES_DIR / f"{theme}.json"
+    theme_json = json.loads(theme_path.read_text())
+    conf._config.clear()
+    conf._config.update(theme_json)
+    conf_window.update_widgets()
+    conf_window.main_tab.setCurrentIndex(0)
+
+    tooltip(f"Applied {theme} theme<br />Press save to save changes")
+
+
 def themes_tab(conf_window: ConfigWindow) -> None:
     tab = conf_window.add_tab("Themes")
     tab.space(10)
+
+    apply_lay = tab.hlayout()
+    apply_lay.text("Themes:")
+    apply_lay.space(10)
+
+    combobox = QComboBox(conf_window)
+    combobox.insertItems(0, themes_list())
+    apply_lay.addWidget(combobox)
+
+    btn = QPushButton("Apply theme", conf_window)
+    btn.clicked.connect(lambda _: apply_theme(conf_window, combobox.currentText()))
+    apply_lay.addWidget(btn)
+    apply_lay.stretch()
+
     tab.text_button(
         "View other themes on the web",
         "https://github.com/AnKingMed/AnkiRecolor/wiki/Themes",
         lambda _: open_web("github.com/AnKingMed/AnkiRecolor/wiki/Themes"),
     )
+
     tab.stretch()
-
-
-def open_web(url: str) -> None:
-    openLink(f"https://{url}")
 
 
 conf.use_custom_window()
