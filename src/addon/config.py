@@ -1,4 +1,4 @@
-from typing import List
+from typing import Any, List
 from pathlib import Path
 import json
 
@@ -146,20 +146,23 @@ def themes_list() -> List[str]:
     return themes
 
 
+def replace_conf_color(conf: ConfigManager, theme_json: Any, dark_mode: bool) -> None:
+    modeidx = 2 if dark_mode else 1
+
+    for color in theme_json["colors"]:
+        conf[f"colors.{color}.{modeidx}"] = theme_json["colors"][color][modeidx]
+
+
 def apply_theme(conf_window: ConfigWindow, theme: str) -> None:
     theme_path = THEMES_DIR / f"{theme}.json"
     theme_json = json.loads(theme_path.read_text())
 
-    if theme.startswith("(dark)"):
-        modeidx = 2
-    elif theme.startswith("(light)"):
-        modeidx = 1
-    else:
-        tooltip("Invalid theme name<br />Theme name must start with (light) or (dark)")
-        return
-
-    for color in theme_json["colors"]:
-        conf[f"colors.{color}.{modeidx}"] = theme_json["colors"][color][modeidx]
+    # Dark mode or universal
+    if not theme.startswith("(dark)"):
+        replace_conf_color(conf, theme_json, False)
+    # Light mode or universal
+    if not theme.startswith("(light)"):
+        replace_conf_color(conf, theme_json, True)
 
     conf_window.update_widgets()
     conf_window.main_tab.setCurrentIndex(0)
