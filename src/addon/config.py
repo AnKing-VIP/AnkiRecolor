@@ -140,7 +140,7 @@ def browse_cards_list_tab(conf_window: ConfigWindow) -> None:
 
 def themes_list() -> List[str]:
     themes = []
-    for child in THEMES_DIR.iterdir():
+    for child in sorted(THEMES_DIR.iterdir()):
         if child.is_file() and child.suffix == ".json":
             themes.append(child.stem)
     return themes
