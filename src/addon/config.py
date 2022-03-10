@@ -69,7 +69,7 @@ def color_idx() -> int:
 def populate_tab(tab: ConfigLayout, conf_keys: List[str]) -> None:
     for conf_key in conf_keys:
         description = conf.get(f"colors.{conf_key}.0")
-        tab.color_input(f"colors.{conf_key}.{color_idx()}", description)
+        tab.color_input(f"colors.{conf_key}.{color_idx()}", description, opacity=True)
     tab.stretch()
 
 
