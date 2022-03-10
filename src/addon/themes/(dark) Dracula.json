@@ -182,7 +182,7 @@
         ],
         "SUSPENDED_BG": [
             "Suspended Background",
-            "#fffb2",
+            "#ffffb2",
             "#6272a4",
             "--suspended-bg"
         ],
