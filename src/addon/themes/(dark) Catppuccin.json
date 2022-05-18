@@ -206,8 +206,8 @@
         ],
         "WINDOW_BG": [
             "Window Background",
-            "#1A1826",
-            "#1A1826",
+            "#1E1E2E",
+            "#1E1E2E",
             "--window-bg"
         ],
         "ZERO_COUNT": [
