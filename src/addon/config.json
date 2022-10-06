@@ -2,7 +2,7 @@
   "colors": {
     "TEXT_FG": ["Text Foreground", "black", "white", "--text-fg"],
     "WINDOW_BG": ["Window Background", "#ececec", "#2f2f31", "--window-bg"],
-    "FRAME_BG": ["Frame Background", "white", "#3a3a3a", "--frame-bg"],
+    "FRAME_BG": ["Frame Background", "white", "#3a3a3a", "--canvas"],
     "BORDER": ["Border", "#aaa", "#777", "--border"],
     "MEDIUM_BORDER": ["Medium Border", "#b6b6b6", "#444", "--medium-border"],
     "FAINT_BORDER": ["Faint Border", "#e7e7e7", "#29292b", "--faint-border"],
