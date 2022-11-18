@@ -1,7 +1,9 @@
-# Save current version
+import os
+
 from aqt import mw
 
 from .ankiaddonconfig import ConfigManager
+from pathlib import Path
 
 conf = ConfigManager()
 
@@ -33,16 +35,27 @@ class Version:
         return self == other or self < other
 
 
-version = Version()
+prev_version = Version()
 
 
-addon_dir = mw.addonManager.addonFromModule(__name__)
-meta = mw.addonManager.addonMeta(addon_dir)
+def save_current_version_to_conf() -> None:
+    version_string = os.environ.get("ANKIRECOLOR_VERSION")
+    if not version_string:
+        version_file = Path(__file__).parent / "VERSION"
+        version_string = version_file.read_text()
+    if version_string != prev_version:
+        conf["version.major"] = int(version_string.split(".")[0])
+        conf["version.minor"] = int(version_string.split(".")[1])
+        conf.save()
 
-try:
-    version_string = meta["human_version"]
-    conf["version.major"] = int(version_string.split(".")[0])
-    conf["version.minor"] = int(version_string.split(".")[1])
-    conf.save()
-except:
-    print("ERROR: ReColor - No human version")
+
+def compat(prev_version: Version) -> None:
+    if prev_version == "-1.-1":
+        return
+    elif prev_version < "2.0":
+        v1_to_v2()
+
+
+# To Anki 2.1.55+ theme style
+def v1_to_v2() -> None:
+    pass
