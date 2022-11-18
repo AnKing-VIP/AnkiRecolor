@@ -2,6 +2,7 @@ from typing import Any, List
 from pathlib import Path
 import json
 
+from aqt import colors
 from aqt.qt import *
 from aqt.utils import openLink, tooltip
 from aqt.theme import theme_manager
@@ -69,7 +70,8 @@ def color_idx() -> int:
 def populate_tab(tab: ConfigLayout, conf_keys: List[str]) -> None:
     for conf_key in conf_keys:
         name = conf.get(f"colors.{conf_key}.0")
-        description = conf.get(f"colors.{conf_key}.4")
+        anki_color = getattr(colors, conf_key, None)
+        description = anki_color["comment"] if anki_color is not None else None
         tab.color_input(f"colors.{conf_key}.{color_idx()}", name, tooltip=description)
     tab.stretch()
 

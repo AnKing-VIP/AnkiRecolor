@@ -4,8 +4,9 @@ from anki.utils import isWin, isMac, pointVersion
 
 import aqt
 from aqt.webview import AnkiWebView
+import aqt.colors
 from aqt import gui_hooks, mw, dialogs
-from aqt.theme import theme_manager, colors
+from aqt.theme import theme_manager
 from aqt.qt import QColor, QPalette, Qt
 
 from .ankiaddonconfig import ConfigManager
@@ -44,13 +45,12 @@ def recolor_python() -> None:
     conf.load()
     color_entries = conf.get("colors")
     for color_name in color_entries:
-        if getattr(colors, color_name, None) is not None:
+        if (anki_color := getattr(aqt.colors, color_name, None)) is not None:
             color_entry = color_entries[color_name]
-            new_color_value = (color_entry[1], color_entry[2])
-            setattr(colors, color_name, new_color_value)
-    apply_palette()
-    theme_manager._apply_style(mw.app)
-    replace_webview_bg()
+            anki_color["light"] = color_entry[1]
+            anki_color["dark"] = color_entry[2]
+            setattr(aqt.colors, color_name, anki_color)
+    theme_manager.apply_style()
     refresh_all_windows()
 
 
@@ -75,7 +75,11 @@ def apply_palette() -> None:
         QPalette.ColorRole.ToolTipBase: "FRAME_BG",
         QPalette.ColorRole.Link: "LINK",
     }
-    disabled_roles = [QPalette.ColorRole.Text, QPalette.ColorRole.ButtonText, QPalette.ColorRole.HighlightedText]
+    disabled_roles = [
+        QPalette.ColorRole.Text,
+        QPalette.ColorRole.ButtonText,
+        QPalette.ColorRole.HighlightedText,
+    ]
 
     palette = QPalette()
 
