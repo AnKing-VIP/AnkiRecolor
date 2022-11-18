@@ -349,6 +349,7 @@ class ConfigLayout(QBoxLayout):
         If opacity is true, allows changing opacity. Note that color is stored in RGBA format, not ARGB.
             When creating using the RGBA in Qt, you need to change it to ARGB format first.
         """
+        color: QColor
         button = QPushButton()
         button.setFixedWidth(25)
         button.setFixedHeight(25)
@@ -356,11 +357,8 @@ class ConfigLayout(QBoxLayout):
         if tooltip is not None:
             button.setToolTip(tooltip)
 
-        color_dialog = QColorDialog(self.config_window)
-        if opacity:
-            color_dialog.setOptions(QColorDialog.ShowAlphaChannel)
-
         def set_color(rgb: str) -> None:
+            nonlocal color
             if len(rgb) == 9:
                 rgb = "#" + rgb[7:] + rgb[1:7]  # RGBA to ARGB
 
@@ -372,7 +370,6 @@ class ConfigLayout(QBoxLayout):
             color.setNamedColor(rgb)  # Accepts #RGB, #RRGGBB or #AARRGGBB
             if not color.isValid():
                 raise InvalidConfigValueError(key, "rgb hex color string", rgb)
-            color_dialog.setCurrentColor(color)
 
         def update() -> None:
             value = self.conf.get(key)
@@ -387,9 +384,17 @@ class ConfigLayout(QBoxLayout):
             self.conf.set(key, rgb)
             set_color(rgb)
 
+        def open_color_dialog() -> None:
+            color_dialog = QColorDialog(self.config_window)
+            if opacity:
+                color_dialog.setOptions(QColorDialog.ShowAlphaChannel)
+            color_dialog.setCurrentColor(color)
+            color_dialog.colorSelected.connect(lambda c: save(c))
+            color_dialog.exec()
+
         self.widget_updates.append(update)
-        color_dialog.colorSelected.connect(lambda color: save(color))
-        button.clicked.connect(lambda _: color_dialog.exec())
+
+        button.clicked.connect(lambda _: open_color_dialog())
 
         if description is not None:
             row = self.hlayout()
