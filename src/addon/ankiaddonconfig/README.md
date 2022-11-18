@@ -37,6 +37,18 @@ Each widget is linked to a single config entry. When the user interacts with a w
 Each ConfigManager instance stores its own config separately. And its configs are synced with `meta.json` only when `load()` and `save()` is called. This is intended so the config value changing while the add-on is running will not cause unanticipated errors. You should only call `conf.load()` when it is safe to do so. With that in mind, it is recommended to use separate ConfigManager instances for your config window.
 
 
+### Add to your project
+
+To download ankiaddonconfig to your project:
+```sh
+git remote add ankiaddonconfig <repo_url>
+git subtree add --prefix <local directory path> ankiaddonconfig master --squash
+```
+
+If you want to pull new changes in ankiaddonconfig:
+```sh
+git subtree pull --prefix <local directory path> ankiaddonconfig master --squash
+```
 
 ### Compatibility
 
