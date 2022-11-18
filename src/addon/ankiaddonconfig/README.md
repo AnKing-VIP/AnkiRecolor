@@ -37,7 +37,7 @@ Each widget is linked to a single config entry. When the user interacts with a w
 Each ConfigManager instance stores its own config separately. And its configs are synced with `meta.json` only when `load()` and `save()` is called. This is intended so the config value changing while the add-on is running will not cause unanticipated errors. You should only call `conf.load()` when it is safe to do so. With that in mind, it is recommended to use separate ConfigManager instances for your config window.
 
 
-### Add to your project
+## Add to your project
 
 To download ankiaddonconfig to your project:
 ```sh
@@ -50,11 +50,12 @@ If you want to pull new changes in ankiaddonconfig:
 git subtree pull --prefix <local directory path> ankiaddonconfig master --squash
 ```
 
-### Compatibility
+## Compatibility
 
 This library is compatible from Anki v2.1.0+. And atleast python v3.6.
 It should also remain compatible with newer Anki versions for a long time.
 
+## Basic Documentation
 ### Methods in ConfigLayout
 When you call `ConfigWindow.add_tab(name)`, you get a ConfigLayout object.
 Creating the widgets is done in ConfigLayout. All the below methods are methods of the ConfigLayout.
@@ -97,7 +98,7 @@ def vlayout(self) -> ConfigLayout:
     # Top to bottom ConfigLayout
 ```
 
-## Using ConfigManager
+### Using ConfigManager
 ```python
 from .ankiaddon import ConfigManager
 conf = ConfigManager()
