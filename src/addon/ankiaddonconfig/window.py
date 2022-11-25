@@ -120,9 +120,9 @@ class ConfigWindow(QDialog):
     def advanced_window(self) -> aqt.addons.ConfigEditor:
         def on_finish(result: int) -> None:
             self.conf.load()
-            self.update_widgets()
             for hook in self.after_advanced_save_hook:
                 hook()
+            self.update_widgets()
 
         diag = aqt.addons.ConfigEditor(
             self, self.conf.addon_dir, self.conf._config  # type: ignore
