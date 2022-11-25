@@ -1,66 +1,36 @@
-import os
-import json
 from pathlib import Path
+import json
+import os
 
 from aqt.utils import showInfo
 
-from .ankiaddonconfig import ConfigManager
-from .utils import darken
+from .ankiaddonconfig import ConfigManager, Version
 
 
-conf = ConfigManager()
+def maybe_migrate_config(conf: ConfigManager) -> None:
+    version = Version(conf["version.major"], conf["version.minor"])
+    version_string = get_new_version_string()
+    if version == "-1.-1":
+        return
+    elif version < "2.0":
+        maybe_v1_to_v2(conf)
 
-
-class Version:
-    def __init__(self) -> None:
-        self.load()
-
-    def load(self) -> None:
-        self.major = conf["version.major"]
-        self.minor = conf["version.minor"]
-
-    def __eq__(self, other: str) -> bool:  # type: ignore
-        ver = [int(i) for i in other.split(".")]
-        return self.major == ver[0] and self.minor == ver[1]
-
-    def __gt__(self, other: str) -> bool:
-        ver = [int(i) for i in other.split(".")]
-        return self.major > ver[0] or (self.major == ver[0] and self.minor > ver[1])
-
-    def __lt__(self, other: str) -> bool:
-        ver = [int(i) for i in other.split(".")]
-        return self.major < ver[0] or (self.major == ver[0] and self.minor < ver[1])
-
-    def __ge__(self, other: str) -> bool:
-        return self == other or self > other
-
-    def __le__(self, other: str) -> bool:
-        return self == other or self < other
-
-
-prev_version = Version()
-
-
-def save_current_version_to_conf() -> None:
-    version_string = os.environ.get("ANKIRECOLOR_VERSION")
-    if not version_string:
-        version_file = Path(__file__).parent / "VERSION"
-        version_string = version_file.read_text()
-    if version_string != prev_version:
+    if version != version_string:
         conf["version.major"] = int(version_string.split(".")[0])
         conf["version.minor"] = int(version_string.split(".")[1])
         conf.save()
 
 
-def compat(prev_version: Version) -> None:
-    if prev_version == "-1.-1":
-        return
-    elif prev_version < "2.0":
-        v1_to_v2()
+def get_new_version_string() -> str:
+    version_string = os.environ.get("ANKIRECOLOR_VERSION")
+    if not version_string:
+        version_file = Path(__file__).parent / "VERSION"
+        version_string = version_file.read_text()
+    return version_string
 
 
 # To Anki 2.1.55+ theme style
-def v1_to_v2() -> None:
+def maybe_v1_to_v2(conf: ConfigManager) -> None:
     conf.load()
 
     # Load and save v1 colors
@@ -139,7 +109,7 @@ def v1_to_v2() -> None:
             new_colors[alias][2] = new_colors[orig][2]
     # Only for light mode
     if new_colors["CANVAS_INSET"][1] != v2_colors["CANVAS_INSET"][1]:
-        new_colors["CANVAS_CODE"][1] = v2_colors["CANVAS_INSET"]
+        new_colors["CANVAS_CODE"][1] = v2_colors["CANVAS_INSET"][1]
 
     # Make sure button hover is different from button bg for top bar buttons
     if new_colors["BUTTON_HOVER"][1] == new_colors["BUTTON_BG"][1]:
@@ -163,5 +133,16 @@ def v1_to_v2() -> None:
     )
 
 
-compat(prev_version)
-save_current_version_to_conf()
+# if by is negative, lightens color
+def darken(hex: str, by: int) -> str:
+    r = int(hex[1:3], 16)
+    g = int(hex[3:5], 16)
+    b = int(hex[5:7], 16)
+    r = r + by
+    g = g + by
+    b = b + by
+    r = max(0, min(16**2 - 1, r))
+    g = max(0, min(16**2 - 1, g))
+    b = max(0, min(16**2 - 1, b))
+    new_r = "%0.2X" % r
+    return "%s%0.2X%0.2X%0.2X%s" % (hex[0], r, g, b, hex[7:])

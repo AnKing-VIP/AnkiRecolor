@@ -9,6 +9,7 @@ from aqt.theme import theme_manager
 
 from .ankiaddonconfig import ConfigManager, ConfigWindow, ConfigLayout
 from .colors import recolor_python, recolor_web
+from .migrate import maybe_migrate_config
 
 THEMES_DIR = Path(__file__).parent / "themes"
 
@@ -62,6 +63,7 @@ def with_window(conf_window: ConfigWindow) -> None:
     conf_window.execute_on_save(on_save)
     conf_window.main_layout.insertLayout(0, header_layout(conf_window))
     conf_window.main_layout.insertSpacing(1, 10)
+    conf_window.after_advanced_save_hook.append(lambda: maybe_migrate_config(conf))
 
 
 def color_idx() -> int:
