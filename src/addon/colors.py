@@ -1,9 +1,10 @@
-from typing import Any, Optional
+from typing import Any, Optional, Tuple
 
+from anki.hooks import wrap
 import aqt
-from aqt.webview import AnkiWebView
 import aqt.colors
 from aqt import gui_hooks, mw
+from aqt.webview import AnkiWebView
 from aqt.theme import theme_manager
 from aqt.qt import QColor
 
@@ -42,7 +43,7 @@ def wrap_style(css: str) -> str:
     return f"<style>{css}</style>"
 
 
-def inject_web(web_content: aqt.webview.WebContent, context: Optional[Any]) -> None:
+def get_theme_css() -> Tuple[str, str]:
     conf.load()
     colors_config = conf["colors"]
 
@@ -57,9 +58,33 @@ def inject_web(web_content: aqt.webview.WebContent, context: Optional[Any]) -> N
             light_mode_css += f"{css_name}: {entry[1]};\n"
             dark_mode_css += f"{css_name}: {entry[2]};\n"
 
-    web_content.head += wrap_style("body { \n%s }" % light_mode_css)
-    web_content.head += wrap_style("body.night_mode { \n%s }" % dark_mode_css)
+    return (light_mode_css, dark_mode_css)
 
 
+def inject_web(web_content: aqt.webview.WebContent, context: Optional[Any]) -> None:
+    (light_mode_css, dark_mode_css) = get_theme_css()
+    web_content.head += (
+        "<style id='recolor-light'>body { \n%s }</style>" % light_mode_css
+    )
+    web_content.head += (
+        "<style id='recolor-dark'>body.night_mode { \n%s }</style>" % dark_mode_css
+    )
+
+
+def webview_on_theme_did_change(webview: AnkiWebView, *args, **kwargs) -> None:
+    (light_mode_css, dark_mode_css) = get_theme_css()
+    webview.eval(
+        "document.getElementById('recolor-light').innerHTML = `body { \n%s }`"
+        % light_mode_css
+    )
+    webview.eval(
+        "document.getElementById('recolor-dark').innerHTML = `body.night_mode { \n%s }`"
+        % dark_mode_css
+    )
+
+
+AnkiWebView.on_theme_did_change = wrap(
+    AnkiWebView.on_theme_did_change, webview_on_theme_did_change, "before"
+)
 gui_hooks.webview_will_set_content.append(inject_web)
 recolor_python()
