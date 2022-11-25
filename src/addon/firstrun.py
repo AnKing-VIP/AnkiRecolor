@@ -2,10 +2,10 @@ import os
 import json
 from pathlib import Path
 
-from aqt import mw
 from aqt.utils import showInfo
 
 from .ankiaddonconfig import ConfigManager
+from .utils import darken
 
 
 conf = ConfigManager()
@@ -128,7 +128,6 @@ def v1_to_v2() -> None:
     V2_ALIAS_MAP = {
         "CANVAS_OVERLAY": "CANVAS",
         "CANVAS_ELEVATED": "CANVAS_INSET",
-        "CANVAS_CODE": "CANVAS_INSET",
         "BUTTON_HOVER": "CANVAS_INSET",
     }
 
@@ -138,6 +137,15 @@ def v1_to_v2() -> None:
             new_colors[alias][1] = new_colors[orig][1]
         if new_colors[orig][2] != v2_colors[orig][2]:
             new_colors[alias][2] = new_colors[orig][2]
+    # Only for light mode
+    if new_colors["CANVAS_INSET"][1] != v2_colors["CANVAS_INSET"][1]:
+        new_colors["CANVAS_CODE"][1] = v2_colors["CANVAS_INSET"]
+
+    # Make sure button hover is different from button bg for top bar buttons
+    if new_colors["BUTTON_HOVER"][1] == new_colors["BUTTON_BG"][1]:
+        new_colors["BUTTON_HOVER"][1] = darken(new_colors["BUTTON_HOVER"][1], 5)
+    if new_colors["BUTTON_HOVER"][2] == new_colors["BUTTON_BG"][2]:
+        new_colors["BUTTON_HOVER"][1] = darken(new_colors["BUTTON_HOVER"][2], 5)
 
     conf.set("colors", new_colors)
     conf.save()
