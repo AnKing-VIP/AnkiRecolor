@@ -2,12 +2,13 @@ from typing import Any, List
 from pathlib import Path
 import json
 
+from aqt import colors
 from aqt.qt import *
 from aqt.utils import openLink, tooltip
 from aqt.theme import theme_manager
 
 from .ankiaddonconfig import ConfigManager, ConfigWindow, ConfigLayout
-from .colors import recolor_python
+from .colors import recolor_python, recolor_web
 
 THEMES_DIR = Path(__file__).parent / "themes"
 
@@ -52,6 +53,7 @@ def header_layout(conf_window: ConfigWindow) -> QHBoxLayout:
 def on_save() -> None:
     conf.save()
     recolor_python()
+    recolor_web()
 
 
 def with_window(conf_window: ConfigWindow) -> None:
@@ -66,75 +68,86 @@ def color_idx() -> int:
     return 2 if theme_manager.night_mode else 1
 
 
-def populate_tab(tab: ConfigLayout, conf_keys: List[str]) -> None:
+def populate_tab(layout: ConfigLayout, conf_keys: List[str]) -> None:
     for conf_key in conf_keys:
-        description = conf.get(f"colors.{conf_key}.0")
-        tab.color_input(f"colors.{conf_key}.{color_idx()}", description)
-    tab.stretch()
+        name = conf.get(f"colors.{conf_key}.0")
+        anki_color = getattr(colors, conf_key, None)
+        description = anki_color["comment"] if anki_color is not None else None
+        layout.color_input(
+            f"colors.{conf_key}.{color_idx()}", name, tooltip=description
+        )
+    layout.stretch()
 
 
-def general_tab(conf_window: ConfigWindow) -> None:
+def main_tab(conf_window: ConfigWindow) -> None:
     conf_keys = [
-        "TEXT_FG",
-        "WINDOW_BG",
-        "FRAME_BG",
-        "BUTTON_BG",
+        "FG",
+        "FG_SUBTLE",
+        "FG_DISABLED",
+        "FG_FAINT",
+        "FG_LINK",
+        "CANVAS",
+        "CANVAS_ELEVATED",
+        "CANVAS_INSET",
+        "CANVAS_OVERLAY",
+        "CANVAS_CODE",
         "BORDER",
-        "MEDIUM_BORDER",
-        "FAINT_BORDER",
+        "BORDER_SUBTLE",
+        "BORDER_STRONG",
+        "BORDER_FOCUS",
+    ]
+    tab = conf_window.add_tab("Main")
+    populate_tab(tab, conf_keys)
+
+
+def buttons_tab(conf_window: ConfigWindow) -> None:
+    conf_keys = [
+        "BUTTON_BG",
+        "BUTTON_HOVER",
+        "BUTTON_HOVER_BORDER",
+        "BUTTON_DISABLED",
+    ]
+    tab = conf_window.add_tab("Buttons")
+    populate_tab(tab, conf_keys)
+
+
+def cards_tab(conf_window: ConfigWindow) -> None:
+    conf_keys = [
+        "STATE_NEW",
+        "STATE_LEARN",
+        "STATE_REVIEW",
+        "STATE_SUSPENDED",
+        "STATE_BURIED",
+        "FLAG_1",
+        "FLAG_2",
+        "FLAG_3",
+        "FLAG_4",
+        "FLAG_5",
+        "FLAG_6",
+        "FLAG_7",
+        "ACCENT_CARD",
+        "ACCENT_NOTE",
+    ]
+    tab = conf_window.add_tab("Cards")
+    populate_tab(tab, conf_keys)
+
+
+def misc_tab(conf_window: ConfigWindow) -> None:
+    conf_keys = [
         "HIGHLIGHT_BG",
         "HIGHLIGHT_FG",
-        "LINK",
-        "DISABLED",
+        "SELECTED_BG",
+        "SELECTED_FG",
+        "ACCENT_DANGER",
+        "SHADOW",
+        "SHADOW_INSET",
+        "SHADOW_SUBTLE",
+        "SHADOW_FOCUS",
+        "SCROLLBAR_BG",
+        "SCROLLBAR_BG_ACTIVE",
+        "SCROLLBAR_BG_HOVER",
     ]
-    tab = conf_window.add_tab("General")
-    populate_tab(tab, conf_keys)
-
-
-def decks_tab(conf_window: ConfigWindow) -> None:
-    conf_keys = [
-        "CURRENT_DECK",
-        "NEW_COUNT",
-        "LEARN_COUNT",
-        "REVIEW_COUNT",
-        "ZERO_COUNT",
-    ]
-    tab = conf_window.add_tab("Decks")
-    populate_tab(tab, conf_keys)
-
-
-def browse_sidebar_tab(conf_window: ConfigWindow) -> None:
-    conf_keys = [
-        "BURIED_FG",
-        "SUSPENDED_FG",
-        "FLAG1_FG",
-        "FLAG2_FG",
-        "FLAG3_FG",
-        "FLAG4_FG",
-        "FLAG5_FG",
-        "FLAG6_FG",
-        "FLAG7_FG",
-    ]
-    tab = conf_window.add_tab("Browse Sidebar")
-    populate_tab(tab, conf_keys)
-
-
-def browse_cards_list_tab(conf_window: ConfigWindow) -> None:
-    conf_keys = [
-        "SLIGHTLY_GREY_TEXT",
-        "HIGHLIGHT_BG",
-        "HIGHLIGHT_FG",
-        "SUSPENDED_BG",
-        "MARKED_BG",
-        "FLAG1_BG",
-        "FLAG2_BG",
-        "FLAG3_BG",
-        "FLAG4_BG",
-        "FLAG5_BG",
-        "FLAG6_BG",
-        "FLAG7_BG",
-    ]
-    tab = conf_window.add_tab("Browse Cards List")
+    tab = conf_window.add_tab("Misc")
     populate_tab(tab, conf_keys)
 
 
@@ -203,8 +216,8 @@ def themes_tab(conf_window: ConfigWindow) -> None:
 
 conf.use_custom_window()
 conf.on_window_open(with_window)
-conf.add_config_tab(general_tab)
-conf.add_config_tab(decks_tab)
-conf.add_config_tab(browse_sidebar_tab)
-conf.add_config_tab(browse_cards_list_tab)
+conf.add_config_tab(main_tab)
+conf.add_config_tab(buttons_tab)
+conf.add_config_tab(cards_tab)
+conf.add_config_tab(misc_tab)
 conf.add_config_tab(themes_tab)

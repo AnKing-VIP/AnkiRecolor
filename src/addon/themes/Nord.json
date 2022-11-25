@@ -1,224 +1,305 @@
 {
     "colors": {
+        "ACCENT_CARD": [
+            "Card mode",
+            "#60a5fa",
+            "#93c5fd",
+            "--accent-card"
+        ],
+        "ACCENT_DANGER": [
+            "Danger",
+            "#ef4444",
+            "#f87171",
+            "--accent-danger"
+        ],
+        "ACCENT_NOTE": [
+            "Note mode",
+            "#22c55e",
+            "#4ade80",
+            "--accent-note"
+        ],
         "BORDER": [
             "Border",
             "#D8DEE9",
             "#434C5E",
             "--border"
         ],
-        "BURIED_FG": [
-            "Buried Foreground",
-            "#aaaa33",
-            "#777733",
-            "--buried-fg"
+        "BORDER_FOCUS": [
+            "Border (focused input)",
+            "#3b82f6",
+            "#3b82f6",
+            "--border-focus"
         ],
-        "BUTTON_BG": [
-            "Button Background",
-            "#D8DEE9",
-            "#3B4252",
-            ""
+        "BORDER_STRONG": [
+            "Border (strong)",
+            "#858585",
+            "#020202",
+            "--border-strong"
         ],
-        "CURRENT_DECK": [
-            "Selected Deck",
-            "#E5E9F0",
-            "#3B4252",
-            "--current-deck"
-        ],
-        "DISABLED": [
-            "Disabled",
-            "#D8DEE9",
-            "#D8DEE9",
-            "--disabled"
-        ],
-        "FAINT_BORDER": [
-            "Faint Border",
+        "BORDER_SUBTLE": [
+            "Border (subtle)",
             "#ECEFF4",
             "#3B4252",
-            "--faint-border"
+            "--border-subtle"
         ],
-        "FLAG1_BG": [
-            "Flag1 (Browse Cards List)",
-            "#BF616A",
-            "#BF616A",
-            "--flag1-bg"
+        "BUTTON_BG": [
+            "Button background",
+            "#D8DEE9",
+            "#3B4252",
+            "--button-bg"
         ],
-        "FLAG1_FG": [
-            "Flag1 (BrowseSidebar)",
-            "#BF616A",
-            "#BF616A",
-            "--flag1-fg"
+        "BUTTON_DISABLED": [
+            "Button background (disabled)",
+            "#d6d6d680",
+            "#45454580",
+            "--button-disabled"
         ],
-        "FLAG2_BG": [
-            "Flag2 (Browse Cards List)",
-            "#D08770",
-            "#D08770",
-            "--flag2-bg"
-        ],
-        "FLAG2_FG": [
-            "Flag2 (Browse Sidebar)",
-            "#D08770",
-            "#D08770",
-            "--flag2-fg"
-        ],
-        "FLAG3_BG": [
-            "Flag3 (Browse Cards List)",
-            "#A3BE8C",
-            "#A3BE8C",
-            "--flag3-bg"
-        ],
-        "FLAG3_FG": [
-            "Flag3 (Browse Sidebar)",
-            "#A3BE8C",
-            "#A3BE8C",
-            "--flag3-fg"
-        ],
-        "FLAG4_BG": [
-            "Flag4 (Browse Cards List)",
-            "#5E81AC",
-            "#5E81AC",
-            "--flag4-bg"
-        ],
-        "FLAG4_FG": [
-            "Flag4 (Browse Sidebar)",
-            "#5E81AC",
-            "#5E81AC",
-            "--flag4-fg"
-        ],
-        "FLAG5_BG": [
-            "Flag5 (Browse Cards List)",
-            "#B48EAD",
-            "#B48EAD",
-            "--flag5-bg"
-        ],
-        "FLAG5_FG": [
-            "Flag5 (Browse Sidebar)",
-            "#B48EAD",
-            "#B48EAD",
-            "--flag5-fg"
-        ],
-        "FLAG6_BG": [
-            "Flag6 (Browse Cards List)",
-            "#7edbd7",
-            "#399185",
-            "--flag6-bg"
-        ],
-        "FLAG6_FG": [
-            "Flag6 (Browse Sidebar)",
-            "#00d1b5",
-            "#5ccfca",
-            "--flag6-fg"
-        ],
-        "FLAG7_BG": [
-            "Flag7 (Browse Cards List)",
-            "#cca3f1",
-            "#624b77",
-            "--flag7-bg"
-        ],
-        "FLAG7_FG": [
-            "Flag7 (Browse Sidebar)",
-            "#9649dd",
-            "#9f63d3",
-            "--flag7-fg"
-        ],
-        "FRAME_BG": [
-            "Frame Background",
+        "BUTTON_HOVER": [
+            "Button background (hover)",
             "#E5E9F0",
             "#3B4252",
-            "--frame-bg"
+            [
+                "--button-gradient-start",
+                "--button-gradient-end"
+            ]
+        ],
+        "BUTTON_HOVER_BORDER": [
+            "Button border (hover)",
+            "#999999",
+            "#141414",
+            "--button-hover-border"
+        ],
+        "BUTTON_PRIMARY_BG": [
+            "Button Primary Bg",
+            "#60a5fa",
+            "#2f67e1",
+            "--button-primary-bg"
+        ],
+        "BUTTON_PRIMARY_DISABLED": [
+            "Button Primary Disabled",
+            "#93c5fd",
+            "#4484ed",
+            "--button-primary-disabled"
+        ],
+        "BUTTON_PRIMARY_GRADIENT_END": [
+            "Button Primary Gradient End",
+            "#2563eb",
+            "#2544a8",
+            "--button-primary-gradient-end"
+        ],
+        "BUTTON_PRIMARY_GRADIENT_START": [
+            "Button Primary Gradient Start",
+            "#60a5fa",
+            "#2f67e1",
+            "--button-primary-gradient-start"
+        ],
+        "CANVAS": [
+            "Background",
+            "white",
+            "#2E3440",
+            "--canvas"
+        ],
+        "CANVAS_CODE": [
+            "Code editor background",
+            "#eceff4",
+            "#252525",
+            "--canvas-code"
+        ],
+        "CANVAS_ELEVATED": [
+            "Background (elevated)",
+            "#eceff4",
+            "#434c5e",
+            "--canvas-elevated"
+        ],
+        "CANVAS_INSET": [
+            "Background (inset)",
+            "#E5E9F0",
+            "#3B4252",
+            "--canvas-inset"
+        ],
+        "CANVAS_OVERLAY": [
+            "Background (menu & tooltip)",
+            "#D8DEE9",
+            "#4C566A",
+            "--canvas-overlay"
+        ],
+        "FG": [
+            "Text",
+            "#2E3440",
+            "#E5E9F0",
+            "--fg"
+        ],
+        "FG_DISABLED": [
+            "Text (disabled)",
+            "#D8DEE9",
+            "#D8DEE9",
+            "--fg-disabled"
+        ],
+        "FG_FAINT": [
+            "Text (faint)",
+            "#D8DEE9",
+            "#434C5E",
+            "--fg-faint"
+        ],
+        "FG_LINK": [
+            "Text (link)",
+            "#8FBCBB",
+            "#8FBCBB",
+            "--fg-link"
+        ],
+        "FG_SUBTLE": [
+            "Text (subtle)",
+            "#3B4252",
+            "#D8DEE9",
+            "--fg-subtle"
+        ],
+        "FLAG_1": [
+            "Flag 1",
+            "#BF616A",
+            "#BF616A",
+            "--flag-1"
+        ],
+        "FLAG_2": [
+            "Flag 2",
+            "#D08770",
+            "#D08770",
+            "--flag-2"
+        ],
+        "FLAG_3": [
+            "Flag 3",
+            "#A3BE8C",
+            "#A3BE8C",
+            "--flag-3"
+        ],
+        "FLAG_4": [
+            "Flag 4",
+            "#5E81AC",
+            "#5E81AC",
+            "--flag-4"
+        ],
+        "FLAG_5": [
+            "Flag 5",
+            "#B48EAD",
+            "#B48EAD",
+            "--flag-5"
+        ],
+        "FLAG_6": [
+            "Flag 6",
+            "#2dd4bf",
+            "#5eead4",
+            "--flag-6"
+        ],
+        "FLAG_7": [
+            "Flag 7",
+            "#a855f7",
+            "#c084fc",
+            "--flag-7"
         ],
         "HIGHLIGHT_BG": [
-            "Highlighted Background",
+            "Highlight background",
             "#81A1C1",
             "#81A1C1",
             "--highlight-bg"
         ],
         "HIGHLIGHT_FG": [
-            "Highlighted Text",
-            "white",
+            "Highlight text",
+            "black",
             "#ECEFF4",
             "--highlight-fg"
         ],
-        "LEARN_COUNT": [
-            "Learn Count",
+        "SCROLLBAR_BG": [
+            "Scrollbar background",
+            "#d6d6d6",
+            "#363636",
+            "--scrollbar-bg"
+        ],
+        "SCROLLBAR_BG_ACTIVE": [
+            "Scrollbar background (active)",
+            "#afafaf",
+            "#636363",
+            "--scrollbar-bg-active"
+        ],
+        "SCROLLBAR_BG_HOVER": [
+            "Scrollbar background (hover)",
+            "#c4c4c4",
+            "#454545",
+            "--scrollbar-bg-hover"
+        ],
+        "SELECTED_BG": [
+            "Selected Bg",
+            "#d6d6d680",
+            "#93c5fd80",
+            "--selected-bg"
+        ],
+        "SELECTED_FG": [
+            "Selected Fg",
+            "black",
+            "white",
+            "--selected-fg"
+        ],
+        "SHADOW": [
+            "Shadow",
+            "#c4c4c4",
+            "#202020",
+            "--shadow"
+        ],
+        "SHADOW_FOCUS": [
+            "Shadow (focused input)",
+            "#6366f1",
+            "#6366f1",
+            "--shadow-focus"
+        ],
+        "SHADOW_INSET": [
+            "Shadow (inset)",
+            "#454545",
+            "#202020",
+            "--shadow-inset"
+        ],
+        "SHADOW_SUBTLE": [
+            "Shadow (subtle)",
+            "#737373",
+            "#363636",
+            "--shadow-subtle"
+        ],
+        "STATE_BURIED": [
+            "Buried",
+            "#f59e0b",
+            "#92400e",
+            "--state-buried"
+        ],
+        "STATE_LEARN": [
+            "Learn",
             "#D08770",
             "#D08770",
-            "--learn-count"
+            "--state-learn"
         ],
-        "LINK": [
-            "Hyperlink",
-            "#8FBCBB",
-            "#8FBCBB",
-            "--link"
-        ],
-        "MARKED_BG": [
-            "Marked Background",
+        "STATE_MARKED": [
+            "Marked",
             "#EBCB8B",
             "#EBCB8B",
-            "--marked-bg"
+            "--state-marked"
         ],
-        "MEDIUM_BORDER": [
-            "Medium Border",
-            "#E5E9F0",
-            "#434C5E",
-            "--medium-border"
-        ],
-        "NEW_COUNT": [
-            "New Count",
+        "STATE_NEW": [
+            "New",
             "#5E81AC",
             "#5E81AC",
-            "--new-count"
+            "--state-new"
         ],
-        "REVIEW_COUNT": [
-            "Review Count",
+        "STATE_REVIEW": [
+            "Review",
             "#A3BE8C",
             "#A3BE8C",
-            "--review-count"
+            "--state-review"
         ],
-        "SLIGHTLY_GREY_TEXT": [
-            "Switch Text",
-            "#3B4252",
-            "#D8DEE9",
-            "--slightly-grey-text"
-        ],
-        "SUSPENDED_BG": [
-            "Suspended Background",
-            "#88C0D0",
-            "#88C0D0",
-            "--suspended-bg"
-        ],
-        "SUSPENDED_FG": [
-            "Suspended Foreground",
+        "STATE_SUSPENDED": [
+            "Suspended",
             "#3B4252",
             "#ECEFF4",
-            "--suspended-fg"
-        ],
-        "TEXT_FG": [
-            "Text Foreground",
-            "#2E3440",
-            "#E5E9F0",
-            "--text-fg"
-        ],
-        "TOOLTIP_BG": [
-            "Tooltip Background",
-            "#D8DEE9",
-            "#4C566A",
-            "--tooltip-bg"
-        ],
-        "WINDOW_BG": [
-            "Window Background",
-            "white",
-            "#2E3440",
-            "--window-bg"
-        ],
-        "ZERO_COUNT": [
-            "Zero Count",
-            "#D8DEE9",
-            "#434C5E",
-            "--zero-count"
+            "--state-suspended"
         ]
     },
     "version": {
-        "major": 1,
-        "minor": 5
+        "major": 2,
+        "minor": 0
     }
 }
