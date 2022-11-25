@@ -59,47 +59,6 @@ def compat(prev_version: Version) -> None:
         v1_to_v2()
 
 
-#
-COLOR_MAP = {
-    "TEXT_FG": "FG",
-    "WINDOW_BG": "CANVAS",
-    "FRAME_BG": "CANVAS_INSET",  # Also CANVAS_OVERLAY
-    "BORDER": "BORDER",
-    "MEDIUM_BORDER": "",
-    "FAINT_BORDER": "BORDER_SUBTLE",
-    "LINK": "FG_LINK",
-    "REVIEW_COUNT": "STATE_REVIEW",
-    "NEW_COUNT": "STATE_NEW",
-    "LEARN_COUNT": "STATE_LEARN",
-    "ZERO_COUNT": "FG_FAINT",
-    "SLIGHTLY_GREY_TEXT": "FG_SUBTLE",
-    "HIGHLIGHT_BG": "HIGHLIGHT_BG",
-    "HIGHLIGHT_FG": "HIGHLIGHT_FG",
-    "DISABLED": "FG_DISABLED",
-    "FLAG1_FG": "FLAG_1",
-    "FLAG2_FG": "FLAG_2",
-    "FLAG3_FG": "FLAG_3",
-    "FLAG4_FG": "FLAG_4",
-    "FLAG5_FG": "FLAG_5",
-    "FLAG6_FG": "FLAG_6",
-    "FLAG7_FG": "FLAG_7",
-    "FLAG1_BG": "",
-    "FLAG2_BG": "",
-    "FLAG3_BG": "",
-    "FLAG4_BG": "",
-    "FLAG5_BG": "",
-    "FLAG6_BG": "",
-    "FLAG7_BG": "",
-    "BURIED_FG": "",
-    "SUSPENDED_FG": "STATE_SUSPENDED",
-    "SUSPENDED_BG": "",
-    "MARKED_BG": "STATE_MARKED",
-    "TOOLTIP_BG": "CANVAS_OVERLAY",
-    "BUTTON_BG": "BUTTON_BG",
-    "CURRENT_DECK": "",
-}
-
-
 # To Anki 2.1.55+ theme style
 def v1_to_v2() -> None:
     conf.load()
@@ -117,6 +76,45 @@ def v1_to_v2() -> None:
     v2_colors = conf.get_default("colors")
     new_colors = conf.get_default("colors")
 
+    COLOR_MAP = {
+        "TEXT_FG": "FG",
+        "WINDOW_BG": "CANVAS",
+        "FRAME_BG": "CANVAS_INSET",  # Also CANVAS_OVERLAY
+        "BORDER": "BORDER",
+        "MEDIUM_BORDER": "",
+        "FAINT_BORDER": "BORDER_SUBTLE",
+        "LINK": "FG_LINK",
+        "REVIEW_COUNT": "STATE_REVIEW",
+        "NEW_COUNT": "STATE_NEW",
+        "LEARN_COUNT": "STATE_LEARN",
+        "ZERO_COUNT": "FG_FAINT",
+        "SLIGHTLY_GREY_TEXT": "FG_SUBTLE",
+        "HIGHLIGHT_BG": "HIGHLIGHT_BG",
+        "HIGHLIGHT_FG": "HIGHLIGHT_FG",
+        "DISABLED": "FG_DISABLED",
+        "FLAG1_FG": "FLAG_1",
+        "FLAG2_FG": "FLAG_2",
+        "FLAG3_FG": "FLAG_3",
+        "FLAG4_FG": "FLAG_4",
+        "FLAG5_FG": "FLAG_5",
+        "FLAG6_FG": "FLAG_6",
+        "FLAG7_FG": "FLAG_7",
+        "FLAG1_BG": "",
+        "FLAG2_BG": "",
+        "FLAG3_BG": "",
+        "FLAG4_BG": "",
+        "FLAG5_BG": "",
+        "FLAG6_BG": "",
+        "FLAG7_BG": "",
+        "BURIED_FG": "",
+        "SUSPENDED_FG": "STATE_SUSPENDED",
+        "SUSPENDED_BG": "",
+        "MARKED_BG": "STATE_MARKED",
+        "TOOLTIP_BG": "CANVAS_OVERLAY",
+        "BUTTON_BG": "BUTTON_BG",
+        "CURRENT_DECK": "",
+    }
+
     # old -> new for colors not identical to vanilla anki
     for old_name in COLOR_MAP:
         new_name = COLOR_MAP[old_name]
@@ -126,11 +124,20 @@ def v1_to_v2() -> None:
             if v1_colors[old_name][2] != v1_anki_colors[old_name][2]:
                 new_colors[new_name][2] = v1_colors[old_name][2]
 
-    if new_colors["CANVAS"][1] != v2_colors["CANVAS"][1]:
-        new_colors["CANVAS_OVERLAY"][1] = new_colors["CANVAS"][1]
-    if new_colors["CANVAS"][2] != v2_colors["CANVAS"][2]:
-        new_colors["CANVAS_OVERLAY"][2] = new_colors["CANVAS"][2]
-    new_colors["BUTTON_HOVER"][1:3] = new_colors["CANVAS_INSET"][1:3]
+    # Copy over color to another if changed
+    V2_ALIAS_MAP = {
+        "CANVAS_OVERLAY": "CANVAS",
+        "CANVAS_ELEVATED": "CANVAS_INSET",
+        "CANVAS_CODE": "CANVAS_INSET",
+        "BUTTON_HOVER": "CANVAS_INSET",
+    }
+
+    for alias in V2_ALIAS_MAP:
+        orig = V2_ALIAS_MAP[alias]
+        if new_colors[orig][1] != v2_colors[orig][1]:
+            new_colors[alias][1] = new_colors[orig][1]
+        if new_colors[orig][2] != v2_colors[orig][2]:
+            new_colors[alias][2] = new_colors[orig][2]
 
     conf.set("colors", new_colors)
     conf.save()
