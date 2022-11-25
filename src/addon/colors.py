@@ -38,6 +38,10 @@ def replace_webview_bg() -> None:
 # ReColor CSS Colors
 
 
+def wrap_style(css: str) -> str:
+    return f"<style>{css}</style>"
+
+
 def inject_web(web_content: aqt.webview.WebContent, context: Optional[Any]) -> None:
     conf.load()
     colors_config = conf["colors"]
@@ -46,11 +50,15 @@ def inject_web(web_content: aqt.webview.WebContent, context: Optional[Any]) -> N
     dark_mode_css = ""
     for name in colors_config:
         entry = colors_config[name]
-        css_name = entry[3]
-        light_mode_css += f"{css_name}: {entry[1]};\n"
-        dark_mode_css += f"{css_name}: {entry[2]};\n"
+        css_names = entry[3]
+        if not isinstance(css_names, list):
+            css_names = [css_names]
+        for css_name in css_names:
+            light_mode_css += f"{css_name}: {entry[1]};\n"
+            dark_mode_css += f"{css_name}: {entry[2]};\n"
 
-    web_content.head += f"<style>body {{ \n{light_mode_css} }}\nbody.night_mode {{ \n{dark_mode_css} }}</style>"
+    web_content.head += wrap_style("body { \n%s }" % light_mode_css)
+    web_content.head += wrap_style("body.night_mode { \n%s }" % dark_mode_css)
 
 
 gui_hooks.webview_will_set_content.append(inject_web)

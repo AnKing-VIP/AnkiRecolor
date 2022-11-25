@@ -130,6 +130,7 @@ def v1_to_v2() -> None:
         new_colors["CANVAS_OVERLAY"][1] = new_colors["CANVAS"][1]
     if new_colors["CANVAS"][2] != v2_colors["CANVAS"][2]:
         new_colors["CANVAS_OVERLAY"][2] = new_colors["CANVAS"][2]
+    new_colors["BUTTON_HOVER"][1:3] = new_colors["CANVAS_INSET"][1:3]
 
     conf.set("colors", new_colors)
     conf.save()

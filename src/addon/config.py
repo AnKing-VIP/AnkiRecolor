@@ -102,8 +102,7 @@ def main_tab(conf_window: ConfigWindow) -> None:
 def buttons_tab(conf_window: ConfigWindow) -> None:
     conf_keys = [
         "BUTTON_BG",
-        "BUTTON_GRADIENT_START",
-        "BUTTON_GRADIENT_END",
+        "BUTTON_HOVER",
         "BUTTON_HOVER_BORDER",
         "BUTTON_DISABLED",
     ]
