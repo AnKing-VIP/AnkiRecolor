@@ -145,7 +145,7 @@ def v1_to_v2() -> None:
     if new_colors["BUTTON_HOVER"][1] == new_colors["BUTTON_BG"][1]:
         new_colors["BUTTON_HOVER"][1] = darken(new_colors["BUTTON_HOVER"][1], 5)
     if new_colors["BUTTON_HOVER"][2] == new_colors["BUTTON_BG"][2]:
-        new_colors["BUTTON_HOVER"][1] = darken(new_colors["BUTTON_HOVER"][2], 5)
+        new_colors["BUTTON_HOVER"][2] = darken(new_colors["BUTTON_HOVER"][2], 5)
 
     conf.set("colors", new_colors)
     conf.save()
