@@ -21,6 +21,7 @@ class ConfigWindow(QDialog):
         self.mgr = mw.addonManager
         self.widget_updates: List[Callable[[], None]] = []
         self.should_save_hook: List[Callable[[], bool]] = []
+        self.after_advanced_save_hook: List[Callable[[], None]] = []
         self._on_save_hook: List[Callable[[], None]] = []
         self._on_close_hook: List[Callable[[], None]] = []
         self.geom_key = f"addonconfig-{conf.addon_name}"
@@ -120,6 +121,8 @@ class ConfigWindow(QDialog):
         def on_finish(result: int) -> None:
             self.conf.load()
             self.update_widgets()
+            for hook in self.after_advanced_save_hook:
+                hook()
 
         diag = aqt.addons.ConfigEditor(
             self, self.conf.addon_dir, self.conf._config  # type: ignore
