@@ -1,4 +1,4 @@
-from typing import Any, Optional, Tuple
+from typing import Any, Optional, Tuple, List
 
 from anki.hooks import wrap
 import aqt
@@ -71,7 +71,16 @@ def inject_web(web_content: aqt.webview.WebContent, context: Optional[Any]) -> N
     )
 
 
-def webview_on_theme_did_change(webview: AnkiWebView, *args, **kwargs) -> None:
+webviews: List[AnkiWebView] = []
+
+
+def recolor_web() -> None:
+    global webviews
+    for webview in webviews:
+        update_webview_css(webview)
+
+
+def update_webview_css(webview: AnkiWebView) -> None:
     (light_mode_css, dark_mode_css) = get_theme_css()
     webview.eval(
         "document.getElementById('recolor-light').innerHTML = `body { \n%s }`"
@@ -83,8 +92,25 @@ def webview_on_theme_did_change(webview: AnkiWebView, *args, **kwargs) -> None:
     )
 
 
-AnkiWebView.on_theme_did_change = wrap(
-    AnkiWebView.on_theme_did_change, webview_on_theme_did_change, "before"
-)
+def on_webview_init(webview: AnkiWebView, *args: Any, **kwargs: Any) -> None:
+    global webviews
+    webviews.append(webview)
+
+
+def on_webview_cleanup(webview: AnkiWebView) -> None:
+    global webviews
+    webviews.remove(webview)
+
+
+if mw.web:
+    webviews.append(mw.web)
+if mw.toolbarWeb:
+    webviews.append(mw.toolbarWeb)
+if mw.bottomWeb:
+    webviews.append(mw.bottomWeb)
+
+
+AnkiWebView.__init__ = wrap(AnkiWebView.__init__, on_webview_init, "before")
+AnkiWebView.cleanup = wrap(AnkiWebView.cleanup, on_webview_init, "before")
 gui_hooks.webview_will_set_content.append(inject_web)
 recolor_python()

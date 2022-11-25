@@ -8,7 +8,7 @@ from aqt.utils import openLink, tooltip
 from aqt.theme import theme_manager
 
 from .ankiaddonconfig import ConfigManager, ConfigWindow, ConfigLayout
-from .colors import recolor_python
+from .colors import recolor_python, recolor_web
 
 THEMES_DIR = Path(__file__).parent / "themes"
 
@@ -53,6 +53,7 @@ def header_layout(conf_window: ConfigWindow) -> QHBoxLayout:
 def on_save() -> None:
     conf.save()
     recolor_python()
+    recolor_web()
 
 
 def with_window(conf_window: ConfigWindow) -> None:
