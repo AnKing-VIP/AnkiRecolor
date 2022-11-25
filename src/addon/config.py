@@ -67,13 +67,15 @@ def color_idx() -> int:
     return 2 if theme_manager.night_mode else 1
 
 
-def populate_tab(tab: ConfigLayout, conf_keys: List[str]) -> None:
+def populate_tab(layout: ConfigLayout, conf_keys: List[str]) -> None:
     for conf_key in conf_keys:
         name = conf.get(f"colors.{conf_key}.0")
         anki_color = getattr(colors, conf_key, None)
         description = anki_color["comment"] if anki_color is not None else None
-        tab.color_input(f"colors.{conf_key}.{color_idx()}", name, tooltip=description)
-    tab.stretch()
+        layout.color_input(
+            f"colors.{conf_key}.{color_idx()}", name, tooltip=description
+        )
+    layout.stretch()
 
 
 def main_tab(conf_window: ConfigWindow) -> None:
@@ -104,10 +106,6 @@ def buttons_tab(conf_window: ConfigWindow) -> None:
         "BUTTON_GRADIENT_END",
         "BUTTON_HOVER_BORDER",
         "BUTTON_DISABLED",
-        "BUTTON_PRIMARY_BG",
-        "BUTTON_PRIMARY_GRADIENT_START",
-        "BUTTON_PRIMARY_GRADIENT_END",
-        "BUTTON_PRIMARY_DISABLED",
     ]
     tab = conf_window.add_tab("Buttons")
     populate_tab(tab, conf_keys)
@@ -136,18 +134,18 @@ def cards_tab(conf_window: ConfigWindow) -> None:
 
 def misc_tab(conf_window: ConfigWindow) -> None:
     conf_keys = [
-        "SCROLLBAR_BG",
-        "SCROLLBAR_BG_ACTIVE",
-        "SCROLLBAR_BG_HOVER",
-        "SHADOW",
-        "SHADOW_INSET",
-        "SHADOW_SUBTLE",
-        "SHADOW_FOCUS",
-        "ACCENT_DANGER",
         "HIGHLIGHT_BG",
         "HIGHLIGHT_FG",
         "SELECTED_BG",
         "SELECTED_FG",
+        "ACCENT_DANGER",
+        "SHADOW",
+        "SHADOW_INSET",
+        "SHADOW_SUBTLE",
+        "SHADOW_FOCUS",
+        "SCROLLBAR_BG",
+        "SCROLLBAR_BG_ACTIVE",
+        "SCROLLBAR_BG_HOVER",
     ]
     tab = conf_window.add_tab("Misc")
     populate_tab(tab, conf_keys)
