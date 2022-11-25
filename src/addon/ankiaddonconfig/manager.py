@@ -45,7 +45,7 @@ class ConfigManager:
             if isinstance(return_val, list):
                 level = int(level)
             return_val = return_val[level]
-        return return_val
+        return copy.deepcopy(return_val)
 
     def copy(self) -> Dict:
         return copy.deepcopy(self._config)
