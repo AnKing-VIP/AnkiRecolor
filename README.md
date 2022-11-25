@@ -15,7 +15,7 @@ ReColor your Anki desktop to whatever aesthetic you like! Combine with the <a hr
 <b>See other examples users have uploaded or upload your own theme: <a href="https://github.com/AnKingMed/AnkiRecolor/wiki">link</a></b>
 <img width="600px" src="https://user-images.githubusercontent.com/73290412/155923384-284d958a-39a6-4428-b88b-25c965942042.png">
 <img width="600px" src="https://user-images.githubusercontent.com/68623691/155918266-75cfb09b-43cc-4cf0-ab16-4b53a3a5d93b.png">
-<img width="600px" src="https://user-images.githubusercontent.com/68623691/155918300-835df0ff-6a6c-4ce0-b54c-4bde705ccbce.png">
+<img width="600px" src="https://user-images.githubusercontent.com/9508518/156137852-55fb9d4c-7911-447d-bd92-f788e1552f0d.png">
 
 # Development
 
