@@ -51,7 +51,7 @@
     "STATE_SUSPENDED": ["Suspended", "#facc15", "#fef9c3", "--state-suspended"]
   },
   "version": {
-    "major": -1,
-    "minor": -1
+    "major": 2,
+    "minor": 0
   }
 }
