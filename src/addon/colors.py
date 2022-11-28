@@ -1,4 +1,4 @@
-from typing import Any, Optional, Tuple, List
+from typing import Any, Optional, Tuple, List, Dict
 
 from anki.hooks import wrap
 import aqt
@@ -6,7 +6,7 @@ import aqt.colors
 from aqt import gui_hooks, mw
 from aqt.webview import AnkiWebView
 from aqt.theme import theme_manager
-from aqt.qt import QColor
+from aqt.qt import QColor, QPalette, Qt
 
 from .ankiaddonconfig import ConfigManager
 
@@ -18,12 +18,25 @@ def recolor_python() -> None:
     conf.load()
     color_entries = conf.get("colors")
     for color_name in color_entries:
-        if (anki_color := getattr(aqt.colors, color_name, None)) is not None:
-            color_entry = color_entries[color_name]
-            anki_color["light"] = color_entry[1]
-            anki_color["dark"] = color_entry[2]
-            setattr(aqt.colors, color_name, anki_color)
+        replace_color(color_entries, color_name)
+    replace_color(color_entries, "BUTTON_GRADIENT_START", "BUTTON_HOVER")
+    replace_color(color_entries, "BUTTON_GRADIENT_END", "BUTTON_HOVER")
     theme_manager.apply_style()
+    _apply_style()
+
+
+def replace_color(
+    color_entries: Dict[str, List[str]],
+    anki_name: str,
+    addon_name: Optional[str] = None,
+) -> None:
+    if addon_name is None:
+        addon_name = anki_name
+    if (anki_color := getattr(aqt.colors, anki_name, None)) is not None:
+        color_entry = color_entries[addon_name]
+        anki_color["light"] = color_entry[1]
+        anki_color["dark"] = color_entry[2]
+        setattr(aqt.colors, anki_name, anki_color)
 
 
 def get_window_bg_color(*args: Any) -> QColor:
@@ -34,6 +47,61 @@ def get_window_bg_color(*args: Any) -> QColor:
 
 def replace_webview_bg() -> None:
     AnkiWebView.get_window_bg_color = get_window_bg_color  # type: ignore
+
+
+def _apply_style() -> None:
+    """
+    Used because Anki doesn't style palette in MacOS.
+
+    Mostly identical to aqt.theme_manager._apply_style
+    changed Button color to BUTTON_BG from BUTTON_GRADIENT_START
+    """
+    manager = theme_manager
+    palette = QPalette()
+    text = manager.qcolor(aqt.colors.FG)
+    palette.setColor(QPalette.ColorRole.WindowText, text)
+    palette.setColor(QPalette.ColorRole.ToolTipText, text)
+    palette.setColor(QPalette.ColorRole.Text, text)
+    palette.setColor(QPalette.ColorRole.ButtonText, text)
+
+    hlbg = manager.qcolor(aqt.colors.HIGHLIGHT_BG)
+    palette.setColor(
+        QPalette.ColorRole.HighlightedText, manager.qcolor(aqt.colors.HIGHLIGHT_FG)
+    )
+    palette.setColor(QPalette.ColorRole.Highlight, hlbg)
+
+    canvas = manager.qcolor(aqt.colors.CANVAS)
+    palette.setColor(QPalette.ColorRole.Window, canvas)
+    palette.setColor(QPalette.ColorRole.AlternateBase, canvas)
+
+    palette.setColor(QPalette.ColorRole.Button, manager.qcolor(aqt.colors.BUTTON_BG))
+
+    input_base = manager.qcolor(aqt.colors.CANVAS_CODE)
+    palette.setColor(QPalette.ColorRole.Base, input_base)
+    palette.setColor(QPalette.ColorRole.ToolTipBase, input_base)
+
+    palette.setColor(
+        QPalette.ColorRole.PlaceholderText, manager.qcolor(aqt.colors.FG_SUBTLE)
+    )
+
+    disabled_color = manager.qcolor(aqt.colors.FG_DISABLED)
+    palette.setColor(
+        QPalette.ColorGroup.Disabled, QPalette.ColorRole.Text, disabled_color
+    )
+    palette.setColor(
+        QPalette.ColorGroup.Disabled, QPalette.ColorRole.ButtonText, disabled_color
+    )
+    palette.setColor(
+        QPalette.ColorGroup.Disabled,
+        QPalette.ColorRole.HighlightedText,
+        disabled_color,
+    )
+
+    palette.setColor(QPalette.ColorRole.Link, manager.qcolor(aqt.colors.FG_LINK))
+
+    palette.setColor(QPalette.ColorRole.BrightText, Qt.GlobalColor.red)
+
+    mw.app.setPalette(palette)
 
 
 # ReColor CSS Colors
