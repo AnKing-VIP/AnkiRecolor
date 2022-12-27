@@ -7,6 +7,7 @@ from aqt import gui_hooks, mw
 from aqt.webview import AnkiWebView
 from aqt.theme import theme_manager
 from aqt.qt import QColor, QPalette, Qt
+from anki.utils import is_mac
 
 from .ankiaddonconfig import ConfigManager
 
@@ -111,7 +112,7 @@ def wrap_style(css: str) -> str:
     return f"<style>{css}</style>"
 
 
-def get_theme_css() -> Tuple[str, str]:
+def get_theme_css() -> Tuple[str, str, str]:
     conf.load()
     colors_config = conf["colors"]
 
@@ -126,17 +127,31 @@ def get_theme_css() -> Tuple[str, str]:
             light_mode_css += f"{css_name}: {entry[1]};\n"
             dark_mode_css += f"{css_name}: {entry[2]};\n"
 
-    return (light_mode_css, dark_mode_css)
+    extra_css = """
+.isMac button {
+    background: var(--button-bg);
+}
+.night-mode .isMac button {
+    --canvas: %s; 
+    --fg: %s; 
+}
+""" % (
+        conf["colors.button-bg.2"],
+        conf["colors.fg.2"],
+    )
+
+    return (light_mode_css, dark_mode_css, extra_css)
 
 
 def inject_web(web_content: aqt.webview.WebContent, context: Optional[Any]) -> None:
-    (light_mode_css, dark_mode_css) = get_theme_css()
+    (light_mode_css, dark_mode_css, extra_css) = get_theme_css()
     web_content.head += (
         "<style id='recolor-light'>body { \n%s }</style>" % light_mode_css
     )
     web_content.head += (
         "<style id='recolor-dark'>body.night_mode { \n%s }</style>" % dark_mode_css
     )
+    web_content.head += "<style id='recolor-extra'>%s</style>" % extra_css
 
 
 webviews: List[AnkiWebView] = []
@@ -149,7 +164,7 @@ def recolor_web() -> None:
 
 
 def update_webview_css(webview: AnkiWebView) -> None:
-    (light_mode_css, dark_mode_css) = get_theme_css()
+    (light_mode_css, dark_mode_css, extra_css) = get_theme_css()
     webview.eval(
         "document.getElementById('recolor-light').innerHTML = `body { \n%s }`"
         % light_mode_css
@@ -157,6 +172,9 @@ def update_webview_css(webview: AnkiWebView) -> None:
     webview.eval(
         "document.getElementById('recolor-dark').innerHTML = `body.night_mode { \n%s }`"
         % dark_mode_css
+    )
+    webview.eval(
+        "document.getElementById('recolor-extra').innerHTML = `%s`" % extra_css
     )
 
 
