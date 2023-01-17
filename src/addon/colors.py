@@ -128,7 +128,7 @@ def get_theme_css() -> Tuple[str, str, str]:
             dark_mode_css += f"{css_name}: {entry[2]};\n"
 
     extra_css = """
-.isMac button {
+html button {
     background: var(--button-bg);
 }
 .night-mode .isMac button {
