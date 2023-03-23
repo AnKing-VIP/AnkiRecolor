@@ -22,7 +22,10 @@ def recolor_python() -> None:
         replace_color(color_entries, color_name)
     replace_color(color_entries, "BUTTON_GRADIENT_START", "BUTTON_HOVER")
     replace_color(color_entries, "BUTTON_GRADIENT_END", "BUTTON_HOVER")
-    theme_manager.apply_style()
+    # theme_manager.apply_style() doesn't have an effect in 2.1.57+ if the theme and widget style didn't change,
+    # so we call the private functions directly
+    theme_manager._apply_palette(aqt.mw.app)
+    theme_manager._apply_style(aqt.mw.app)
     _apply_style()
 
 
