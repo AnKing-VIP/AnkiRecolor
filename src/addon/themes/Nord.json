@@ -108,7 +108,7 @@
         "CANVAS_ELEVATED": [
             "Background (elevated)",
             "#eceff4",
-            "#434c5e",
+            "#363636",
             "--canvas-elevated"
         ],
         "CANVAS_INSET": [
