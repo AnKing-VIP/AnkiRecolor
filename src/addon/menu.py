@@ -10,10 +10,10 @@ def create_get_help_submenu(parent: QMenu) -> QMenu:
     menu_options = [
         (
             "Online Mastery Course",
-            "https://courses.ankipalace.com/?utm_source=anking_bg_add-on&utm_medium=anki_add-on&utm_campaign=mastery_course",
+            "https://www.theanking.com/anki-mastery-course/?utm_source=recolor_addon&utm_medium=anki_add-on&utm_campaign=mastery_course",
         ),
-        ("Daily Q and A Support", "https://www.ankipalace.com/memberships"),
-        ("1-on-1 Tutoring", "https://www.ankipalace.com/tutoring"),
+        ("Daily Q and A Support", "https://www.theanking.com/anking-memberships"),
+        ("1-on-1 Tutoring", "https://www.theanking.com/anking-tutoring"),
     ]
     submenu = QMenu(submenu_name, parent)
     for name, url in menu_options:
