@@ -29,6 +29,18 @@ def recolor_python() -> None:
     _apply_style()
 
 
+def hex_with_alpha_to_rgba(hex_color: str) -> str:
+    """Convert CSS's eight-value syntax to rgba to work with Qt stylesheets"""
+    if hex_color.startswith("#") and len(hex_color) == 9:
+        color = hex_color.strip("#")
+        red = int(color[0:2], 16)
+        green = int(color[2:4], 16)
+        blue = int(color[4:6], 16)
+        alpha = round(int(color[6:8], 16) / 255, 2)
+        return f"rgba({red}, {green}, {blue}, {alpha})"
+    return hex_color
+
+
 def replace_color(
     color_entries: Dict[str, List[str]],
     anki_name: str,
@@ -38,8 +50,8 @@ def replace_color(
         addon_name = anki_name
     if (anki_color := getattr(aqt.colors, anki_name, None)) is not None:
         color_entry = color_entries[addon_name]
-        anki_color["light"] = color_entry[1]
-        anki_color["dark"] = color_entry[2]
+        anki_color["light"] = hex_with_alpha_to_rgba(color_entry[1])
+        anki_color["dark"] = hex_with_alpha_to_rgba(color_entry[2])
         setattr(aqt.colors, anki_name, anki_color)
 
 
