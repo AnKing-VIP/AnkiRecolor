@@ -76,7 +76,7 @@ def populate_tab(layout: ConfigLayout, conf_keys: List[str]) -> None:
         anki_color = getattr(colors, conf_key, None)
         description = anki_color["comment"] if anki_color is not None else None
         layout.color_input(
-            f"colors.{conf_key}.{color_idx()}", name, tooltip=description
+            f"colors.{conf_key}.{color_idx()}", name, tooltip=description, opacity=True
         )
     layout.stretch()
 

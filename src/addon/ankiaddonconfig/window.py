@@ -390,7 +390,7 @@ class ConfigLayout(QBoxLayout):
         def open_color_dialog() -> None:
             color_dialog = QColorDialog(self.config_window)
             if opacity:
-                color_dialog.setOptions(QColorDialog.ShowAlphaChannel)
+                color_dialog.setOptions(QColorDialog.ColorDialogOption.ShowAlphaChannel)
             color_dialog.setCurrentColor(color)
             color_dialog.colorSelected.connect(lambda c: save(c))
             color_dialog.exec()
