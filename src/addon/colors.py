@@ -151,8 +151,8 @@ html button {
     --fg: %s; 
 }
 """ % (
-        conf["colors.button-bg.2"],
-        conf["colors.fg.2"],
+        conf["colors.BUTTON_BG.2"],
+        conf["colors.FG.2"],
     )
 
     return (light_mode_css, dark_mode_css, extra_css)
