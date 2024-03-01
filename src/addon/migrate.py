@@ -11,7 +11,7 @@ def maybe_migrate_config(conf: ConfigManager) -> None:
     version = Version(conf["version.major"], conf["version.minor"])
     version_string = get_new_version_string()
     if version == "-1.-1":
-        return
+        pass
     elif version < "2.0":
         maybe_v1_to_v2(conf)
 
