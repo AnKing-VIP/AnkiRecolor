@@ -168,6 +168,21 @@ def inject_web(web_content: aqt.webview.WebContent, context: Optional[Any]) -> N
     )
     web_content.head += "<style id='recolor-extra'>%s</style>" % extra_css
 
+def inject_web_ts(webview: AnkiWebView) -> None:
+    (light_mode_css, dark_mode_css, extra_css) = get_theme_css()
+
+    styles = """
+    <style id='recolor-light'>body { \n%s }</style>
+    <style id='recolor-dark'>body.night_mode { \n%s }</style>
+    <style id='recolor-extra'>%s</style>
+    """ % (light_mode_css, dark_mode_css, extra_css)
+
+    webview.eval(
+        f"""(() => {{
+            document.head.innerHTML += `{styles}`;
+        }})()"""
+    )
+
 
 webviews: List[AnkiWebView] = []
 
@@ -214,4 +229,5 @@ if mw.bottomWeb:
 AnkiWebView.__init__ = wrap(AnkiWebView.__init__, on_webview_init, "before")  # type: ignore
 AnkiWebView.cleanup = wrap(AnkiWebView.cleanup, on_webview_init, "before")  # type: ignore
 gui_hooks.webview_will_set_content.append(inject_web)
+gui_hooks.webview_did_inject_style_into_page.append(inject_web_ts)
 recolor_python()
