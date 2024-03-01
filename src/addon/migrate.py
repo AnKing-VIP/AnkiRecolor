@@ -11,14 +11,22 @@ def maybe_migrate_config(conf: ConfigManager) -> None:
     version = Version(conf["version.major"], conf["version.minor"])
     version_string = get_new_version_string()
     if version == "-1.-1":
-        pass
+        if detect_v2(conf):
+            v2_to_v3(conf)
     elif version < "2.0":
         maybe_v1_to_v2(conf)
+        v2_to_v3(conf)
+    elif version < "3.0":
+        v2_to_v3(conf)
 
     if version != version_string:
         conf["version.major"] = int(version_string.split(".")[0])
         conf["version.minor"] = int(version_string.split(".")[1])
         conf.save()
+
+# some versions of v2 may be incorrectly in -1.-1
+def detect_v2(conf: ConfigManager) -> bool:
+    return "CANVAS_GLASS" not in conf["colors"] and "CANVAS" in conf["colors"]
 
 
 def get_new_version_string() -> str:
@@ -141,8 +149,82 @@ def darken(hex: str, by: int) -> str:
     r = r + by
     g = g + by
     b = b + by
-    r = max(0, min(16**2 - 1, r))
-    g = max(0, min(16**2 - 1, g))
-    b = max(0, min(16**2 - 1, b))
+    r = max(0, min(16 ** 2 - 1, r))
+    g = max(0, min(16 ** 2 - 1, g))
+    b = max(0, min(16 ** 2 - 1, b))
     new_r = "%0.2X" % r
     return "%s%0.2X%0.2X%0.2X%s" % (hex[0], r, g, b, hex[7:])
+
+
+def adjust_alpha(color: str, by: float) -> str:
+    alpha = 255
+    if color.startswith("#"):
+        if len(color) == 9:
+            alpha = int(color[8:10], 16)
+            body = color[0:8]
+        elif len(color) == 7:
+            body = color
+        elif len(color) == 4:
+            body = f"#{color[0]*2}{color[1]*2}{color[2]*2}"
+    elif color.startswith("rgba"):
+        [r, g, b, a] = map(int, color.split(")")[0].split(","))
+        alpha = a
+        body = f"#{r:02X}{g:02X}{b:02X}"
+    elif color == "white":
+        body = "#ffffff"
+    elif color == "black":
+        body = "#000000"
+    else:
+        # probably some other keyword-named color that is difficult to adjust alpha
+        return color
+
+    alpha = int(alpha * by)
+    return f"{body}{alpha:02X}"
+
+
+def v2_to_v3(conf: ConfigManager) -> None:
+    conf.load()
+    colors = conf.get("colors")
+
+    # add canvas-glass
+    elevated = colors["CANVAS_ELEVATED"]
+    colors["CANVAS_GLASS"] = [
+        "Background (transparent text surface)",
+        adjust_alpha(elevated[1], 0.4),
+        adjust_alpha(elevated[2], 0.4),
+        "--canvas-glass",
+    ]
+
+    canvas = colors["CANVAS"]
+    if not isinstance(canvas[3], list):
+        canvas[3] = [canvas[3]]
+    canvas[3].append("--bs-body-bg")
+
+    fg = colors["FG"]
+    if not isinstance(fg[3], list):
+        fg[3] = [fg[3]]
+    fg[3].append("--bs-body-color")
+
+    conf.set("colors", colors)
+    conf.save()
+
+# for Anki v2.66+
+def adjust_colors_v3(colors: dict):
+    # add canvas-glass
+    elevated = colors["CANVAS_ELEVATED"]
+    colors["CANVAS_GLASS"] = [
+        "Background (transparent text surface)",
+        adjust_alpha(elevated[1], 0.4),
+        adjust_alpha(elevated[2], 0.4),
+        "--canvas-glass",
+    ]
+
+    canvas = colors["CANVAS"]
+    if not isinstance(canvas[3], list):
+        canvas[3] = [canvas[3]]
+    canvas[3].append("--bs-body-bg")
+
+    fg = colors["FG"]
+    if not isinstance(fg[3], list):
+        fg[3] = [fg[3]]
+    fg[3].append("--bs-body-color")

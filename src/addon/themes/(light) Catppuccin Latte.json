@@ -97,7 +97,10 @@
             "Background",
             "#eff1f5",
             "#eff1f5",
-            "--canvas"
+            [
+                "--canvas",
+                "--bs-body-bg"
+            ]
         ],
         "CANVAS_CODE": [
             "Code editor background",
@@ -110,6 +113,12 @@
             "#e6e9ef",
             "#e6e9ef",
             "--canvas-elevated"
+        ],
+        "CANVAS_GLASS": [
+            "Background (transparent text surface)",
+            "#e6e9ef66",
+            "#e6e9ef66",
+            "--canvas-glass"
         ],
         "CANVAS_INSET": [
             "Background (inset)",
@@ -127,7 +136,10 @@
             "Text",
             "#4c4f69",
             "#4c4f69",
-            "--fg"
+            [
+                "--fg",
+                "--bs-body-color"
+            ]
         ],
         "FG_DISABLED": [
             "Text (disabled)",
@@ -299,7 +311,7 @@
         ]
     },
     "version": {
-        "major": 2,
-        "minor": 4
+        "major": 3,
+        "minor": 0
     }
 }
