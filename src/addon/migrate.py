@@ -208,8 +208,9 @@ def v2_to_v3(conf: ConfigManager) -> None:
     conf.set("colors", colors)
     conf.save()
 
+
 # for Anki v2.66+
-def adjust_colors_v3(colors: dict):
+def adjust_colors_v3(colors: dict) -> None:
     # add canvas-glass
     elevated = colors["CANVAS_ELEVATED"]
     colors["CANVAS_GLASS"] = [
