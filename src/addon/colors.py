@@ -2,6 +2,7 @@ from typing import Any, Optional, Tuple, List, Dict
 
 from anki.hooks import wrap
 import aqt
+import aqt.browser
 import aqt.colors
 from aqt import gui_hooks, mw
 from aqt.webview import AnkiWebView
@@ -13,6 +14,19 @@ from .ankiaddonconfig import ConfigManager
 
 conf = ConfigManager()
 
+# Sourced from aqt.browser.table.backend_color_to_aqt_color
+ARGB_ONLY_ENTRIES = (
+    "STATE_MARKED",
+    "STATE_SUSPENDED",
+    "STATE_BURIED",
+    "FLAG_1",
+    "FLAG_2",
+    "FLAG_3",
+    "FLAG_4",
+    "FLAG_5",
+    "FLAG_6",
+    "FLAG_7"
+)
 
 # ReColor Python Colors
 def recolor_python() -> None:
@@ -41,6 +55,12 @@ def hex_with_alpha_to_rgba(hex_color: str) -> str:
     return hex_color
 
 
+def hex_with_alpha_to_argb(hex_color: str) -> str:
+    # ARGB_ONLY_ENTRIES get passed directly into QColor's ctor, which doesn't take rgba
+    # but it does take ARGB hex, so convert rgba to argb (https://doc.qt.io/qt-6/qcolor.html#fromString)
+    return "#" + hex_color[-2:] + hex_color[1:-2]
+
+
 def replace_color(
     color_entries: Dict[str, List[str]],
     anki_name: str,
@@ -50,8 +70,9 @@ def replace_color(
         addon_name = anki_name
     if (anki_color := getattr(aqt.colors, anki_name, None)) is not None:
         color_entry = color_entries[addon_name]
-        anki_color["light"] = hex_with_alpha_to_rgba(color_entry[1])
-        anki_color["dark"] = hex_with_alpha_to_rgba(color_entry[2])
+        color_map_fn = hex_with_alpha_to_rgba if anki_name not in ARGB_ONLY_ENTRIES else hex_with_alpha_to_argb
+        anki_color["light"] = color_map_fn(color_entry[1])
+        anki_color["dark"] = color_map_fn(color_entry[2])
         setattr(aqt.colors, anki_name, anki_color)
 
 
