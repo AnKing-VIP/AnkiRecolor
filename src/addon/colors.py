@@ -2,7 +2,6 @@ from typing import Any, Optional, Tuple, List, Dict
 
 from anki.hooks import wrap
 import aqt
-import aqt.browser
 import aqt.colors
 from aqt import gui_hooks, mw
 from aqt.webview import AnkiWebView
