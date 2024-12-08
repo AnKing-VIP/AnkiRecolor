@@ -57,7 +57,7 @@ def hex_with_alpha_to_rgba(hex_color: str) -> str:
 def hex_with_alpha_to_argb(hex_color: str) -> str:
     # ARGB_ONLY_ENTRIES get passed directly into QColor's ctor, which doesn't take rgba
     # but it does take ARGB hex, so convert rgba to argb (https://doc.qt.io/qt-6/qcolor.html#fromString)
-    return "#" + hex_color[-2:] + hex_color[1:-2]
+    return "#" + hex_color[7:9] + hex_color[1:7]
 
 
 def replace_color(
