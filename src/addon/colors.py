@@ -1,4 +1,5 @@
 from typing import Any, Optional, Tuple, List, Dict
+import re
 
 from anki.hooks import wrap
 import aqt
@@ -54,10 +55,23 @@ def hex_with_alpha_to_rgba(hex_color: str) -> str:
     return hex_color
 
 
+RGBA_RE = re.compile(r"\((\d+),\s*(\d+),\s*(\d+),\s*(\d+\.*\d+?)\)\s*")
+
 def hex_with_alpha_to_argb(hex_color: str) -> str:
-    # ARGB_ONLY_ENTRIES get passed directly into QColor's ctor, which doesn't take rgba
-    # but it does take ARGB hex, so convert rgba to argb (https://doc.qt.io/qt-6/qcolor.html#fromString)
-    return "#" + hex_color[7:9] + hex_color[1:7]
+    # ARGB_ONLY_ENTRIES get passed directly into a QColor, so they need to be of RGB hex format
+    # QColor also takes #ARGB, so prepend the alpha instead of removing it (https://doc.qt.io/qt-6/qcolor.html#fromString)
+    if hex_color.startswith("#") and len(hex_color) == 9:
+        # assume #RGBA, convert to #ARGB
+        return "#" + hex_color[7:9] + hex_color[1:7]
+    elif hex_color.startswith("rgba") and (m := re.match(RGBA_RE, hex_color[4:])):
+        # convert rgba(...) to #ARGB
+        r = int(m.group(1))
+        g = int(m.group(2))
+        b = int(m.group(3))
+        a = int(255 * float(m.group(4)))
+        return f"#{a:02x}{r:0x}{g:02x}{b:02x}"
+    # fallback to original
+    return hex_color
 
 
 def replace_color(
