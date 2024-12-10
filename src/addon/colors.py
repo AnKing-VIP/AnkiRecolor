@@ -69,7 +69,7 @@ def hex_with_alpha_to_argb(hex_color: str) -> str:
         g = int(m.group(2))
         b = int(m.group(3))
         a = int(255 * float(m.group(4)))
-        return f"#{a:02x}{r:0x}{g:02x}{b:02x}"
+        return f"#{a:02x}{r:02x}{g:02x}{b:02x}"
     # fallback to original
     return hex_color
 
