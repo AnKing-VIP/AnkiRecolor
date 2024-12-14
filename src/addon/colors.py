@@ -15,6 +15,7 @@ from .ankiaddonconfig import ConfigManager
 conf = ConfigManager()
 
 # Sourced from aqt.browser.table.backend_color_to_aqt_color
+# ACCENT_CARD and ACCENT_NOTE are passed to ThemeManager.qcolor, which doesn't support #RGBA
 ARGB_ONLY_ENTRIES = (
     "STATE_MARKED",
     "STATE_SUSPENDED",
@@ -25,7 +26,9 @@ ARGB_ONLY_ENTRIES = (
     "FLAG_4",
     "FLAG_5",
     "FLAG_6",
-    "FLAG_7"
+    "FLAG_7",
+    "ACCENT_CARD",
+    "ACCENT_NOTE"
 )
 
 # ReColor Python Colors
