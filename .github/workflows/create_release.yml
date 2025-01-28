@@ -36,9 +36,9 @@ jobs:
         run: cd src/addon ; zip -r ../../recolor_v${{ github.event.inputs.version }}.ankiaddon * ; cd ../../
       
       - name: Create github release and upload ankiaddon file
-        uses: svenstaro/upload-release-action@2.2.1
+        uses: softprops/action-gh-release@v2
         with:
-          repo_token: ${{ github.token }}
-          file: "recolor_v${{ github.event.inputs.version }}.ankiaddon"
-          tag: ${{ github.event.inputs.version }}
-          release_name: ReColor v${{ github.event.inputs.version }}
+          token: ${{ github.token }}
+          files: "recolor_v${{ github.event.inputs.version }}.ankiaddon"
+          tag_name: ${{ github.event.inputs.version }}
+          name: ReColor v${{ github.event.inputs.version }}
