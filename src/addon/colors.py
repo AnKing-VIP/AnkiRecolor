@@ -264,7 +264,7 @@ if mw.bottomWeb:
 
 
 AnkiWebView.__init__ = wrap(AnkiWebView.__init__, on_webview_init, "before")  # type: ignore
-AnkiWebView.cleanup = wrap(AnkiWebView.cleanup, on_webview_init, "before")  # type: ignore
+AnkiWebView.cleanup = wrap(AnkiWebView.cleanup, on_webview_cleanup, "before")  # type: ignore
 gui_hooks.webview_will_set_content.append(inject_web)
 gui_hooks.webview_did_inject_style_into_page.append(inject_web_ts)
 recolor_python()
