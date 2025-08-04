@@ -17,6 +17,7 @@ QT6 = QT_VERSION_STR.split(".")[0] == "6"
 class ConfigWindow(QDialog):
     def __init__(self, conf: "ConfigManager") -> None:
         QDialog.__init__(self, mw, Qt.WindowType.Window)  # type: ignore
+        self.setModal(True)
         self.conf = conf
         self.mgr = mw.addonManager
         self.widget_updates: List[Callable[[], None]] = []
@@ -26,7 +27,6 @@ class ConfigWindow(QDialog):
         self.geom_key = f"addonconfig-{conf.addon_name}"
 
         self.setWindowTitle(f"Config for {conf.addon_name}")
-        self.setAttribute(Qt.WidgetAttribute.WA_DeleteOnClose)
         self.setup()
 
     def setup(self) -> None:
@@ -44,7 +44,6 @@ class ConfigWindow(QDialog):
         self.setup_buttons(self.btn_layout)
 
     def setup_buttons(self, btn_box: "ConfigLayout") -> None:
-
         self.advanced_btn = QPushButton("Advanced")
         self.advanced_btn.clicked.connect(self.on_advanced)
         btn_box.addWidget(self.advanced_btn)
@@ -209,7 +208,7 @@ class ConfigLayout(QBoxLayout):
         checkbox.stateChanged.connect(
             lambda s: self.conf.set(
                 key,
-                s == (Qt.CheckState.Checked.value if QT6 else Qt.CheckState.Checked),
+                s == (Qt.CheckState.Checked.value if QT6 else Qt.CheckState.Checked),  # type: ignore
             )
         )
         self.addWidget(checkbox)
@@ -349,6 +348,7 @@ class ConfigLayout(QBoxLayout):
         If opacity is true, allows changing opacity. Note that color is stored in RGBA format, not ARGB.
             When creating using the RGBA in Qt, you need to change it to ARGB format first.
         """
+        color: QColor
         button = QPushButton()
         button.setFixedWidth(25)
         button.setFixedHeight(25)
@@ -356,11 +356,8 @@ class ConfigLayout(QBoxLayout):
         if tooltip is not None:
             button.setToolTip(tooltip)
 
-        color_dialog = QColorDialog(self.config_window)
-        if opacity:
-            color_dialog.setOptions(QColorDialog.ShowAlphaChannel)
-
         def set_color(rgb: str) -> None:
+            nonlocal color
             if len(rgb) == 9:
                 rgb = "#" + rgb[7:] + rgb[1:7]  # RGBA to ARGB
 
@@ -372,7 +369,6 @@ class ConfigLayout(QBoxLayout):
             color.setNamedColor(rgb)  # Accepts #RGB, #RRGGBB or #AARRGGBB
             if not color.isValid():
                 raise InvalidConfigValueError(key, "rgb hex color string", rgb)
-            color_dialog.setCurrentColor(color)
 
         def update() -> None:
             value = self.conf.get(key)
@@ -387,9 +383,17 @@ class ConfigLayout(QBoxLayout):
             self.conf.set(key, rgb)
             set_color(rgb)
 
+        def open_color_dialog() -> None:
+            color_dialog = QColorDialog(self.config_window)
+            if opacity:
+                color_dialog.setOptions(QColorDialog.ColorDialogOption.ShowAlphaChannel)
+            color_dialog.setCurrentColor(color)
+            color_dialog.colorSelected.connect(lambda c: save(c))
+            color_dialog.exec()
+
         self.widget_updates.append(update)
-        color_dialog.colorSelected.connect(lambda color: save(color))
-        button.clicked.connect(lambda _: color_dialog.exec())
+
+        button.clicked.connect(lambda _: open_color_dialog())
 
         if description is not None:
             row = self.hlayout()
@@ -450,6 +454,44 @@ class ConfigLayout(QBoxLayout):
         button.clicked.connect(get_path)
 
         return (line_edit, button)
+
+    def shortcut_input(
+        self, key: str, description: Optional[str] = None, tooltip: Optional[str] = None
+    ) -> Tuple[QKeySequenceEdit, QPushButton]:
+        edit = QKeySequenceEdit()
+
+        if description is not None:
+            row = self.hlayout()
+            row.text(description, tooltip=tooltip)
+
+        def update() -> None:
+            val = self.conf.get(key)
+            if not isinstance(val, str):
+                raise InvalidConfigValueError(key, "str", val)
+            val = val.replace(" ", "")
+            edit.setKeySequence(val)
+
+        self.widget_updates.append(update)
+
+        edit.keySequenceChanged.connect(  # type: ignore
+            lambda s: self.conf.set(key, edit.keySequence().toString())
+        )
+
+        def on_shortcut_clear_btn_click() -> None:
+            edit.clear()
+
+        shortcut_clear_btn = QPushButton("Clear")
+        shortcut_clear_btn.setSizePolicy(
+            QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed
+        )
+        shortcut_clear_btn.clicked.connect(on_shortcut_clear_btn_click)  # type: ignore
+
+        layout = QHBoxLayout()
+        layout.addWidget(edit)
+        layout.addWidget(shortcut_clear_btn)
+
+        self.addLayout(layout)
+        return edit, shortcut_clear_btn
 
     # Layout widgets
 
@@ -623,7 +665,7 @@ class ConfigLayout(QBoxLayout):
         """Legacy. Adds QScrollArea > QWidget*2 > ConfigLayout, returns the layout."""
         return self._scroll_layout(
             QSizePolicy.Policy.Expanding if horizontal else QSizePolicy.Policy.Minimum,
-            QSizePolicy.Policy.Expanding if vertical else QSizePolicy.Minimum,
+            QSizePolicy.Policy.Expanding if vertical else QSizePolicy.Policy.Minimum,
             Qt.ScrollBarPolicy.ScrollBarAsNeeded,
             Qt.ScrollBarPolicy.ScrollBarAsNeeded,
         )
