@@ -128,7 +128,8 @@ conf.clone() # returns a deepcopy of the config dictionary
 
 ## Contributing
 
-Please run mypy and black before creating a pull request. You may need to run `python -m pip install aqt PyQt5-stubs` for mypy checks to work.
+Please run mypy and black before creating a pull request. You may need to run `python -m pip install aqt` for mypy checks to work. You may need to uninstall `PyQt5-stubs` and `PyQt5` packages for mypy checks to work.
+
 ```
 python -m mypy .
 python -m black .
