@@ -16,6 +16,7 @@ ReColor your Anki desktop to whatever aesthetic you like! Combine with the <a hr
 <img width="600px" src="https://github.com/AnKingMed/AnkiRecolor/blob/main/screenshots/solaris_light.png?raw=true">
 <img width="600px" src="https://github.com/AnKingMed/AnkiRecolor/blob/main/screenshots/nord_dark.png?raw=true">
 <img width="600px" src="https://github.com/AnKingMed/AnkiRecolor/blob/main/screenshots/one_darkest.png?raw=true">
+<img width="600px" src="https://github.com/anarchy1923/AnkiRecolor/blob/main/screenshots/everforestDark.png?raw=true">
 
 # Development
 
